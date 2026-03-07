@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local design files
+Customer Support — Ticket System.fig
+canvas.fig

@@ -1,16 +1,11 @@
-
-import './App.css'
+import Navbar from "./components/Navbar";
 
 function App() {
-
-
   return (
-    <>
-      <div>
-        
-      </div>
-    </>
-  )
+    <div className="min-h-screen bg-base-200">
+      <Navbar />
+    </div>
+  );
 }
 
-export default App
+export default App;
