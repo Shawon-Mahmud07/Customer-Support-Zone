@@ -1,16 +1,99 @@
-# React + Vite
+# Customer Support Zone (React)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a React-based ticket management UI where users can:
 
-Currently, two official plugins are available:
+- view customer tickets
+- move tickets into Task Status
+- mark tasks as complete
+- track In-Progress and Resolved counts from the banner
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+নিচে React-এর common interview-style প্রশ্নগুলোর সংক্ষিপ্ত উত্তর দেওয়া হলো।
 
-## React Compiler
+## 1) What is JSX, and why is it used?
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+JSX এর পূর্ণরূপ **JavaScript XML**।  
+সহজভাবে বলতে পরি , JSX ব্যবহার করে JavaScript-এর ভেতরে HTML-এর মতো syntax লেখা যায়।
 
-## Expanding the ESLint configuration
+উদাহরণ:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```jsx
+const title = <h1>Hello React</h1>;
+```
+
+কেন JSX ব্যবহার করা হয়:
+
+- UI structure সহজে বোঝা যায়
+- Component code বেশি readable হয়
+- JavaScript expression সরাসরি `{}` এর মাধ্যমে লেখা যায়
+
+ভেতরে ভেতরে JSX `React.createElement(...)` এ convert হয়ে যায়।
+
+## 2) What is the difference between State and Props?
+
+সংক্ষেপে:
+
+- **Props**: parent component থেকে child component-এ data পাঠানোর উপায় (read-only)
+- **State**: component-এর নিজের পরিবর্তনশীল data
+
+এই project-এ:
+
+- `App.jsx` state হিসেবে tickets, taskStatus, resolvedTasks ধরে রাখে
+- `MainSection` এবং `Banner` props হিসেবে ওই data নেয়
+
+অর্থাৎ, props হলো incoming data, আর state হলো component-এর internal data।
+
+## 3) What is the useState hook, and how does it work?
+
+`useState` হলো function component-এ data store এবং update করার React hook।
+
+```jsx
+const [count, setCount] = useState(0);
+```
+
+যেভাবে কাজ করে:
+
+1. শুরুতে initial value সেট হয় (`0`)
+2. `setCount(...)` কল করলে state update হয়
+3. React re-render করে নতুন UI দেখায়
+
+Project example:
+
+- Ticket click করলে `setTaskStatus(...)`
+- Complete করলে `setResolvedTasks(...)` এবং `setTickets(...)`
+
+## 4) How can you share state between components in React?
+
+সবচেয়ে common পদ্ধতি: **Lift State Up**।
+
+মানে:
+
+- shared state parent component-এ রাখা হয়
+- child component-এ props দিয়ে পাঠানো হয়
+- child থেকে action trigger করার জন্য callback function পাঠানো হয়
+
+এখানে:
+
+- `App.jsx` হলো source of truth
+- `Banner` count props নেয়
+- `MainSection` data + handlers নেয় (`onAddToTask`, `onCompleteTask`)
+
+এভাবে data flow predictable থাকে।
+
+## 5) How is event handling done in React?
+
+React-এ event handling করা হয় camelCase props দিয়ে, যেমন `onClick`, `onChange`, `onSubmit`।
+
+উদাহরণ:
+
+```jsx
+<button onClick={handleComplete}>Complete</button>
+```
+
+এই project-এ:
+
+- Ticket card click -> Task Status-এ add হয়
+- Complete button click -> ticket Resolved-এ move হয়
+- React-Toastify দিয়ে feedback toast দেখানো হয়
+
+সোজা flow:
+user action -> handler function -> state update -> UI update
