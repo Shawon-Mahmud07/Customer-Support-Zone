@@ -8,6 +8,7 @@ function Navbar() {
           CS - Ticket System
         </a>
 
+        {/* Desktop navigation + primary action */}
         <div className="hidden items-center gap-5 lg:flex">
           <nav>
             <ul className="flex items-center gap-8 text-[clamp(0.92rem,0.6vw+0.48rem,1.3rem)] font-medium tracking-[-0.01em] text-[#2a2a2a]">
@@ -26,6 +27,7 @@ function Navbar() {
           </button>
         </div>
 
+        {/* Mobile dropdown navigation */}
         <div className="dropdown dropdown-end lg:hidden">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
             <svg
