@@ -61,7 +61,8 @@ function MainSection() {
   return (
     <section className="mx-auto w-full max-w-370 px-5 pb-10 pt-4 sm:px-8 sm:pb-14">
       {/* Left: ticket cards, Right: task status panel */}
-      <div className="grid grid-cols-1 gap-6 xl:grid-cols-[2fr_1fr] xl:gap-8">
+     
+      <div className="flex flex-col-reverse gap-6 xl:grid xl:grid-cols-[2fr_1fr] xl:gap-8">
         <div>
           <h2 className="text-[clamp(1.9rem,0.8vw+1.45rem,2.8rem)] font-semibold text-[#2d4258]">
             Customer Tickets
@@ -74,7 +75,7 @@ function MainSection() {
           </div>
         </div>
 
-// Right panel with task status and resolved tasks, styled as an aside for semantic clarity
+        {/* Task status sidebar with instructions and resolved tasks */}
         <aside className="rounded-lg p-2 xl:pt-2">
           <h3 className="text-[clamp(1.7rem,0.6vw+1.35rem,2.2rem)] font-semibold text-[#2d4258]">
             Task Status
