@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./components/Navbar";
 import Banner from "./components/Banner";
 import MainSection from "./components/MainSection";
+import Footer from "./components/Footer";
 import initialTickets from "./data/tickets.json";
 
 function App() {
@@ -74,6 +75,9 @@ function App() {
         onAddToTask={handleAddToTask}
         onCompleteTask={handleCompleteTask}
       />
+      {/* Footer at the bottom of the page */}
+      <Footer />
+      {/* Toast notifications container */}
       <ToastContainer position="top-right" autoClose={1800} hideProgressBar theme="colored" />
     </div>
   );
