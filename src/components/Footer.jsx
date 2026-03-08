@@ -24,10 +24,10 @@ function Footer() {
               CS - Ticket System
             </h2>
             <p className="mt-4 max-w-[42ch] text-[clamp(1rem,0.25vw+0.88rem,1.2rem)] leading-relaxed text-[#b9bec8]">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book.
+              CS - Ticket System helps support teams track customer issues,
+              manage active tasks, and resolve tickets faster with a clean,
+              focused workflow. From ticket creation to completion, everything
+              stays organized in one place.
             </p>
           </div>
 
