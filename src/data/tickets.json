@@ -1,0 +1,110 @@
+[
+  {
+    "id": 1001,
+    "title": "Account Locked After Password Reset",
+    "description": "Customer reset password successfully but account still shows locked status on next login attempt.",
+    "customer": "Aiden Clark",
+    "priority": "High",
+    "status": "Open",
+    "createdAt": "1/12/2026"
+  },
+  {
+    "id": 1002,
+    "title": "Failed Checkout on Safari",
+    "description": "Checkout button is unresponsive on Safari 17 when customer uses saved card payment.",
+    "customer": "Mia Rodriguez",
+    "priority": "High",
+    "status": "In-Progress",
+    "createdAt": "1/18/2026"
+  },
+  {
+    "id": 1003,
+    "title": "Invoice PDF Corrupted",
+    "description": "Downloaded invoice opens with blank pages for enterprise customers in the billing portal.",
+    "customer": "Noah Bennett",
+    "priority": "Medium",
+    "status": "Open",
+    "createdAt": "1/23/2026"
+  },
+  {
+    "id": 1004,
+    "title": "Billing Address Sync Delay",
+    "description": "Address changes in profile are taking over 24 hours to reflect on billing receipts.",
+    "customer": "Lily Morgan",
+    "priority": "Low",
+    "status": "Open",
+    "createdAt": "2/2/2026"
+  },
+  {
+    "id": 1005,
+    "title": "Mobile App Crash After Update",
+    "description": "Android app closes instantly after splash screen for users who updated to the latest version.",
+    "customer": "Ethan Foster",
+    "priority": "High",
+    "status": "Open",
+    "createdAt": "2/7/2026"
+  },
+  {
+    "id": 1006,
+    "title": "Refund Stuck in Pending",
+    "description": "Refund approved by support but transaction remains pending in payment provider dashboard.",
+    "customer": "Zoe Turner",
+    "priority": "Medium",
+    "status": "In-Progress",
+    "createdAt": "2/11/2026"
+  },
+  {
+    "id": 1007,
+    "title": "2FA OTP Not Delivered",
+    "description": "One-time passcodes are not arriving for users with Banglalink and Grameenphone numbers.",
+    "customer": "Ryan Hughes",
+    "priority": "High",
+    "status": "Open",
+    "createdAt": "2/16/2026"
+  },
+  {
+    "id": 1008,
+    "title": "Profile Photo Upload Timeout",
+    "description": "Profile image uploads larger than 2MB fail with timeout error after progress reaches 90%.",
+    "customer": "Sofia Reed",
+    "priority": "Low",
+    "status": "Resolved",
+    "createdAt": "2/19/2026"
+  },
+  {
+    "id": 1009,
+    "title": "Auto-Renew Toggle Disabled",
+    "description": "Annual plan users cannot enable auto-renew despite active payment method on file.",
+    "customer": "Jackson Price",
+    "priority": "Medium",
+    "status": "In-Progress",
+    "createdAt": "2/24/2026"
+  },
+  {
+    "id": 1010,
+    "title": "Order Email Missing Attachments",
+    "description": "Confirmation emails are delivered but invoice attachments are missing for business orders.",
+    "customer": "Aria Collins",
+    "priority": "Medium",
+    "status": "Open",
+    "createdAt": "3/1/2026"
+  },
+  {
+    "id": 1011,
+    "title": "Coupon Validation Error",
+    "description": "Promo code accepted in cart but fails at final payment step with invalid token message.",
+    "customer": "Caleb Ward",
+    "priority": "Low",
+    "status": "Open",
+    "createdAt": "3/4/2026"
+  },
+  {
+    "id": 1012,
+    "title": "Tracking Page 500 Error",
+    "description": "Order tracking endpoint returns 500 for international orders created through API.",
+    "customer": "Nora Simmons",
+    "priority": "High",
+    "status": "Open",
+    "createdAt": "3/8/2026"
+  }
+]
