@@ -14,7 +14,7 @@
     "description": "Checkout button is unresponsive on Safari 17 when customer uses saved card payment.",
     "customer": "Mia Rodriguez",
     "priority": "High",
-    "status": "In-Progress",
+    "status": "Open",
     "createdAt": "1/18/2026"
   },
   {
@@ -50,7 +50,7 @@
     "description": "Refund approved by support but transaction remains pending in payment provider dashboard.",
     "customer": "Zoe Turner",
     "priority": "Medium",
-    "status": "In-Progress",
+    "status": "Open",
     "createdAt": "2/11/2026"
   },
   {
@@ -68,7 +68,7 @@
     "description": "Profile image uploads larger than 2MB fail with timeout error after progress reaches 90%.",
     "customer": "Sofia Reed",
     "priority": "Low",
-    "status": "Resolved",
+    "status": "Open",
     "createdAt": "2/19/2026"
   },
   {
@@ -77,7 +77,7 @@
     "description": "Annual plan users cannot enable auto-renew despite active payment method on file.",
     "customer": "Jackson Price",
     "priority": "Medium",
-    "status": "In-Progress",
+    "status": "Open",
     "createdAt": "2/24/2026"
   },
   {

@@ -1,18 +1,9 @@
 import vector1 from "../assets/vector1.png";
 
-// Banner summary cards (driven from data for easier scaling).
-const cards = [
-  {
-    title: "In-Progress",
-    count: 0,
-    gradient: "bg-[linear-gradient(120deg,#632EE3_0%,#9F62F2_100%)]",
-  },
-  {
-    title: "Resolved",
-    count: 0,
-    gradient: "bg-[linear-gradient(120deg,#53C768_0%,#008B8A_100%)]",
-  },
-];
+const gradients = {
+  progress: "bg-[linear-gradient(120deg,#632EE3_0%,#9F62F2_100%)]",
+  resolved: "bg-[linear-gradient(120deg,#53C768_0%,#008B8A_100%)]",
+};
 
 // Banner card component with decorative vectors and content
 function BannerCard({ title, count, gradient }) {
@@ -47,7 +38,20 @@ function BannerCard({ title, count, gradient }) {
   );
 }
 
-function Banner() {
+function Banner({ inProgressCount, resolvedCount }) {
+  const cards = [
+    {
+      title: "In-Progress",
+      count: inProgressCount,
+      gradient: gradients.progress,
+    },
+    {
+      title: "Resolved",
+      count: resolvedCount,
+      gradient: gradients.resolved,
+    },
+  ];
+
   return (
     <section className="mx-auto w-full max-w-370 px-5 pb-6 pt-8 sm:px-8 sm:pt-10">
       {/* Mobile: 1 column, Desktop: 2 columns */}
