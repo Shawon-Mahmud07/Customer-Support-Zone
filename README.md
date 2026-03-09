@@ -1,5 +1,7 @@
 # Customer Support Zone (React)
 
+This project is a React-based Customer Support Zone designed to display customer tickets, track progress, and mark them as resolved. It follows a Figma design and includes additional features like status management, responsiveness, and toast notifications using React-Toastify.
+
 This project is a React-based ticket management UI where users can:
 
 - view customer tickets
