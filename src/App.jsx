@@ -25,7 +25,6 @@ function App() {
     }
 
     const updated = { ...selected, status: "In-Progress" };
-
     setTaskStatus((prev) => [updated, ...prev]);
     setTickets((prev) =>
       prev.map((ticket) =>
@@ -35,19 +34,23 @@ function App() {
     toast.success("Ticket added to Task Status.");
   }
 
+  function handleDeleteTicket(ticketId) {
+    setTickets((prev) => prev.filter((ticket) => ticket.id !== ticketId));
+    setTaskStatus((prev) => prev.filter((ticket) => ticket.id !== ticketId));
+    toast.error("Ticket deleted.");
+  }
+
   function handleCompleteTask(ticketId) {
     const selected = taskStatus.find((ticket) => ticket.id === ticketId);
     if (!selected) return;
 
     const completed = { ...selected, status: "Resolved" };
-
     setTaskStatus((prev) => prev.filter((ticket) => ticket.id !== ticketId));
     setResolvedTasks((prev) => [completed, ...prev]);
     setTickets((prev) => prev.filter((ticket) => ticket.id !== ticketId));
     toast.success("Task marked as complete.");
   }
 
-  // Memoize the UI state to prevent unnecessary re-renders of child components
   const uiState = useMemo(
     () => ({
       tickets,
@@ -61,24 +64,26 @@ function App() {
 
   return (
     <div className="min-h-screen bg-base-200">
-      {/* Top section: navbar and status banner */}
       <Navbar />
       <Banner
         inProgressCount={uiState.inProgressCount}
         resolvedCount={uiState.resolvedCount}
       />
-      {/* Main content section with tickets and task status */}
       <MainSection
         tickets={uiState.tickets}
         taskStatus={uiState.taskStatus}
         resolvedTasks={uiState.resolvedTasks}
         onAddToTask={handleAddToTask}
         onCompleteTask={handleCompleteTask}
+        onDeleteTicket={handleDeleteTicket}
       />
-      {/* Footer at the bottom of the page */}
       <Footer />
-      {/* Toast notifications container */}
-      <ToastContainer position="top-right" autoClose={1800} hideProgressBar theme="colored" />
+      <ToastContainer
+        position="top-right"
+        autoClose={1800}
+        hideProgressBar
+        theme="colored"
+      />
     </div>
   );
 }
