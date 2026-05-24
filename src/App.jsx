@@ -5,15 +5,32 @@ import Navbar from "./components/Navbar";
 import Banner from "./components/Banner";
 import MainSection from "./components/MainSection";
 import Footer from "./components/Footer";
+import NewTicketModal from "./components/NewTicketModal";
 import initialTickets from "./data/tickets.json";
 
 function App() {
   const [tickets, setTickets] = useState(initialTickets);
   const [taskStatus, setTaskStatus] = useState([]);
   const [resolvedTasks, setResolvedTasks] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   const inProgressCount = taskStatus.length;
   const resolvedCount = resolvedTasks.length;
+
+  function handleNewTicketSubmit(form) {
+    const newTicket = {
+      id: Date.now(),
+      title: form.title.trim(),
+      description: form.description.trim(),
+      customer: form.customer.trim(),
+      priority: form.priority,
+      status: "Open",
+      createdAt: new Date().toLocaleDateString("en-US"),
+    };
+    setTickets((prev) => [newTicket, ...prev]);
+    setShowModal(false);
+    toast.success("New ticket created!");
+  }
 
   function handleAddToTask(ticketId) {
     const selected = tickets.find((ticket) => ticket.id === ticketId);
@@ -64,7 +81,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-base-200">
-      <Navbar />
+      <Navbar onNewTicket={() => setShowModal(true)} />
       <Banner
         inProgressCount={uiState.inProgressCount}
         resolvedCount={uiState.resolvedCount}
@@ -84,6 +101,13 @@ function App() {
         hideProgressBar
         theme="colored"
       />
+
+      {showModal && (
+        <NewTicketModal
+          onClose={() => setShowModal(false)}
+          onSubmit={handleNewTicketSubmit}
+        />
+      )}
     </div>
   );
 }
