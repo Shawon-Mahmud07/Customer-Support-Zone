@@ -1,101 +1,153 @@
-# Customer Support Zone (React)
+# 🎫 Customer Support Zone
 
-This project is a React-based Customer Support Zone designed to display customer tickets, track progress, and mark them as resolved. It follows a Figma design and includes additional features like status management, responsiveness, and toast notifications using React-Toastify.
+A clean, responsive **Customer Support Ticket Management System** built with React 19, Tailwind CSS v4, and DaisyUI. Manage customer tickets from open to resolved — all in one focused interface.
 
-This project is a React-based ticket management UI where users can:
+**🔗 Live Demo:** [customer1-support-zone.netlify.app](https://customer1-support-zone.netlify.app)
 
-- view customer tickets
-- move tickets into Task Status
-- mark tasks as complete
-- track In-Progress and Resolved counts from the banner
+---
 
-নিচে React-এর common interview-style প্রশ্নগুলোর সংক্ষিপ্ত উত্তর দেওয়া হলো।
+## ✨ Features
 
-## 1) What is JSX, and why is it used?
+- **View Tickets** — All customer tickets displayed in a responsive card grid
+- **Add to Task** — Click any open ticket to move it to the Task Status panel
+- **Complete Tasks** — Mark in-progress tickets as resolved with one click
+- **Delete Tickets** — Remove any ticket instantly with the trash icon
+- **New Ticket Modal** — Create new tickets via a validated form modal
+- **Live Counters** — Banner shows real-time In-Progress and Resolved counts
+- **Toast Notifications** — Instant feedback on every action via React-Toastify
+- **Fully Responsive** — Works on mobile, tablet, and desktop
 
-JSX এর পূর্ণরূপ **JavaScript XML**।  
-সহজভাবে বলতে পরি , JSX ব্যবহার করে JavaScript-এর ভেতরে HTML-এর মতো syntax লেখা যায়।
+---
 
-উদাহরণ:
+## 🛠️ Tech Stack
 
-```jsx
-const title = <h1>Hello React</h1>;
+| Technology | Version | Purpose |
+| --- | --- | --- |
+| React | 19.2 | UI & state management |
+| Vite | 7.3 | Build tool & dev server |
+| Tailwind CSS | 4.2 | Utility-first styling |
+| DaisyUI | 5.5 | UI component library |
+| React-Toastify | 11.0 | Toast notifications |
+
+---
+
+## 📁 Project Structure
+
+```plain text
+Customer-Support-Zone/
+├── public/
+│   └── favicon.svg
+├── src/
+│   ├── assets/
+│   │   ├── vector1.png
+│   │   └── vector2.png
+│   ├── components/
+│   │   ├── Banner.jsx        # In-Progress & Resolved counters
+│   │   ├── Footer.jsx        # Site footer
+│   │   ├── MainSection.jsx   # Ticket grid + Task Status sidebar
+│   │   ├── Navbar.jsx        # Top navigation bar
+│   │   └── NewTicketModal.jsx # New ticket creation modal
+│   ├── data/
+│   │   └── tickets.json      # Initial ticket seed data
+│   ├── App.jsx               # Root component & state management
+│   ├── index.css             # Global styles
+│   └── main.jsx              # App entry point
+├── index.html
+├── package.json
+├── vite.config.js
+└── netlify.toml
 ```
 
-কেন JSX ব্যবহার করা হয়:
+---
 
-- UI structure সহজে বোঝা যায়
-- Component code বেশি readable হয়
-- JavaScript expression সরাসরি `{}` এর মাধ্যমে লেখা যায়
+## 🚀 Getting Started
 
-ভেতরে ভেতরে JSX `React.createElement(...)` এ convert হয়ে যায়।
+### Prerequisites
 
-## 2) What is the difference between State and Props?
+- Node.js v18+
+- npm v9+
 
-সংক্ষেপে:
+### Installation
 
-- **Props**: parent component থেকে child component-এ data পাঠানোর উপায় (read-only)
-- **State**: component-এর নিজের পরিবর্তনশীল data
+```bash
+# Clone the repository
+git clone https://github.com/Shawon-Mahmud07/Customer-Support-Zone.git
 
-এই project-এ:
+# Navigate to project folder
+cd Customer-Support-Zone
 
-- `App.jsx` state হিসেবে tickets, taskStatus, resolvedTasks ধরে রাখে
-- `MainSection` এবং `Banner` props হিসেবে ওই data নেয়
+# Install dependencies
+npm install
 
-অর্থাৎ, props হলো incoming data, আর state হলো component-এর internal data।
-
-## 3) What is the useState hook, and how does it work?
-
-`useState` হলো function component-এ data store এবং update করার React hook।
-
-```jsx
-const [count, setCount] = useState(0);
+# Start development server
+npm run dev
 ```
 
-যেভাবে কাজ করে:
+Then open **http://localhost:5173** in your browser.
 
-1. শুরুতে initial value সেট হয় (`0`)
-2. `setCount(...)` কল করলে state update হয়
-3. React re-render করে নতুন UI দেখায়
+### Build for Production
 
-Project example:
-
-- Ticket click করলে `setTaskStatus(...)`
-- Complete করলে `setResolvedTasks(...)` এবং `setTickets(...)`
-
-## 4) How can you share state between components in React?
-
-সবচেয়ে common পদ্ধতি: **Lift State Up**।
-
-মানে:
-
-- shared state parent component-এ রাখা হয়
-- child component-এ props দিয়ে পাঠানো হয়
-- child থেকে action trigger করার জন্য callback function পাঠানো হয়
-
-এখানে:
-
-- `App.jsx` হলো source of truth
-- `Banner` count props নেয়
-- `MainSection` data + handlers নেয় (`onAddToTask`, `onCompleteTask`)
-
-এভাবে data flow predictable থাকে।
-
-## 5) How is event handling done in React?
-
-React-এ event handling করা হয় camelCase props দিয়ে, যেমন `onClick`, `onChange`, `onSubmit`।
-
-উদাহরণ:
-
-```jsx
-<button onClick={handleComplete}>Complete</button>
+```bash
+npm run build
 ```
 
-এই project-এ:
+The output will be in the `dist/` folder.
 
-- Ticket card click -> Task Status-এ add হয়
-- Complete button click -> ticket Resolved-এ move হয়
-- React-Toastify দিয়ে feedback toast দেখানো হয়
+---
 
-সোজা flow:
-user action -> handler function -> state update -> UI update
+## 🔄 How It Works
+
+```plain text
+Open Ticket
+    │
+    │  click card
+    ▼
+In-Progress (Task Status panel)
+    │
+    │  click Complete
+    ▼
+Resolved (Resolved Task list)
+```
+
+**State Flow:**
+
+- All state lives in `App.jsx` (single source of truth)
+- `tickets` → full ticket list
+- `taskStatus` → currently in-progress tickets
+- `resolvedTasks` → completed tickets
+- Child components receive data via **props** and trigger updates via **callback functions**
+
+---
+
+## 🌐 Deploying to Netlify
+
+The project includes a `netlify.toml` for zero-config deployment:
+
+```toml
+[build]
+  command = "npm run build"
+  publish = "dist"
+```
+
+Just connect your GitHub repo to Netlify — it will build and deploy automatically on every push.
+
+---
+
+## 📝 React Concepts Used
+
+| Concept | Where Used |
+| --- | --- |
+| `useState` | Ticket list, task status, modal open/close |
+| `useMemo` | Optimizing UI state passed to child components |
+| Props & Callbacks | Parent → child data flow |
+| Conditional Rendering | Empty states, modal visibility |
+| Event Handling | onClick, onChange, onKeyDown |
+| List Rendering | Ticket cards, task status items |
+
+---
+
+## 🙏 Acknowledgements
+
+- Design inspired by Figma community resources
+- Icons from [Heroicons](https://heroicons.com)
+- Deployed on [Netlify](https://netlify.com)
