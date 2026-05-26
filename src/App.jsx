@@ -8,7 +8,6 @@ import Footer from "./components/Footer";
 import NewTicketModal from "./components/NewTicketModal";
 import initialTickets from "./data/tickets.json";
 
-// Helper: load from localStorage or fallback to default
 function loadState(key, fallback) {
   try {
     const stored = localStorage.getItem(key);
@@ -30,7 +29,11 @@ function App() {
   );
   const [showModal, setShowModal] = useState(false);
 
-  // Save to localStorage whenever state changes
+  // Search & Filter state
+  const [search, setSearch] = useState("");
+  const [filterPriority, setFilterPriority] = useState("All");
+  const [filterStatus, setFilterStatus] = useState("All");
+
   useEffect(() => {
     localStorage.setItem("csz_tickets", JSON.stringify(tickets));
   }, [tickets]);
@@ -42,6 +45,20 @@ function App() {
   useEffect(() => {
     localStorage.setItem("csz_resolvedTasks", JSON.stringify(resolvedTasks));
   }, [resolvedTasks]);
+
+  // Filtered tickets
+  const filteredTickets = useMemo(() => {
+    return tickets.filter((ticket) => {
+      const matchSearch = ticket.title
+        .toLowerCase()
+        .includes(search.toLowerCase());
+      const matchPriority =
+        filterPriority === "All" || ticket.priority === filterPriority;
+      const matchStatus =
+        filterStatus === "All" || ticket.status === filterStatus;
+      return matchSearch && matchPriority && matchStatus;
+    });
+  }, [tickets, search, filterPriority, filterStatus]);
 
   const totalCount = tickets.length + taskStatus.length + resolvedTasks.length;
   const inProgressCount = taskStatus.length;
@@ -98,32 +115,27 @@ function App() {
     toast.success("Task marked as complete.");
   }
 
-  const uiState = useMemo(
-    () => ({
-      tickets,
-      taskStatus,
-      resolvedTasks,
-      inProgressCount,
-      resolvedCount,
-    }),
-    [tickets, taskStatus, resolvedTasks, inProgressCount, resolvedCount],
-  );
-
   return (
     <div className="min-h-screen bg-base-200">
       <Navbar onNewTicket={() => setShowModal(true)} />
       <Banner
-        totalCount={tickets.length + taskStatus.length + resolvedTasks.length}
-        inProgressCount={uiState.inProgressCount}
-        resolvedCount={uiState.resolvedCount}
+        totalCount={totalCount}
+        inProgressCount={inProgressCount}
+        resolvedCount={resolvedCount}
       />
       <MainSection
-        tickets={uiState.tickets}
-        taskStatus={uiState.taskStatus}
-        resolvedTasks={uiState.resolvedTasks}
+        tickets={filteredTickets}
+        taskStatus={taskStatus}
+        resolvedTasks={resolvedTasks}
         onAddToTask={handleAddToTask}
         onCompleteTask={handleCompleteTask}
         onDeleteTicket={handleDeleteTicket}
+        search={search}
+        onSearchChange={setSearch}
+        filterPriority={filterPriority}
+        onFilterPriority={setFilterPriority}
+        filterStatus={filterStatus}
+        onFilterStatus={setFilterStatus}
       />
       <Footer />
       <ToastContainer

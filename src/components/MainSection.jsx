@@ -10,9 +10,108 @@ const priorityStyles = {
   Low: "text-[#16A34A]",
 };
 
+const PRIORITIES = ["All", "High", "Medium", "Low"];
+const STATUSES = ["All", "Open", "In-Progress"];
+
 function trimText(text, max = 92) {
   if (text.length <= max) return text;
   return `${text.slice(0, max)}...`;
+}
+
+// Search & Filter Bar
+function FilterBar({
+  search,
+  onSearchChange,
+  filterPriority,
+  onFilterPriority,
+  filterStatus,
+  onFilterStatus,
+}) {
+  return (
+    <div className="mt-4 flex flex-wrap items-center gap-3">
+      {/* Search input */}
+      <div className="relative min-w-50 flex-1">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#94a3b8]"
+        >
+          <circle cx="11" cy="11" r="8" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="m21 21-4.35-4.35"
+          />
+        </svg>
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => onSearchChange(e.target.value)}
+          placeholder="Search tickets..."
+          className="w-full rounded-lg border border-[#e2e8f0] bg-white py-2 pl-9 pr-4 text-sm text-[#0f2137] outline-none transition focus:border-[#632EE3] focus:ring-2 focus:ring-[#632EE3]/20"
+        />
+        {/* Clear button */}
+        {search && (
+          <button
+            onClick={() => onSearchChange("")}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-[#94a3b8] hover:text-[#0f2137]"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              className="h-4 w-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18 18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        )}
+      </div>
+
+      {/* Priority filter */}
+      <div className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-white px-1 py-1">
+        {PRIORITIES.map((p) => (
+          <button
+            key={p}
+            onClick={() => onFilterPriority(p)}
+            className={`rounded-md px-3 py-1 text-xs font-medium transition ${
+              filterPriority === p
+                ? "bg-[#632EE3] text-white shadow-sm"
+                : "text-[#64748b] hover:bg-[#f1f5f9]"
+            }`}
+          >
+            {p}
+          </button>
+        ))}
+      </div>
+
+      {/* Status filter */}
+      <div className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-white px-1 py-1">
+        {STATUSES.map((s) => (
+          <button
+            key={s}
+            onClick={() => onFilterStatus(s)}
+            className={`rounded-md px-3 py-1 text-xs font-medium transition ${
+              filterStatus === s
+                ? "bg-[#632EE3] text-white shadow-sm"
+                : "text-[#64748b] hover:bg-[#f1f5f9]"
+            }`}
+          >
+            {s}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 function TicketCard({ ticket, onAddToTask, onDeleteTicket }) {
@@ -31,7 +130,6 @@ function TicketCard({ ticket, onAddToTask, onDeleteTicket }) {
       }}
       className={`rounded-lg border border-[#e6e8ee] bg-white p-4 shadow-[0_5px_16px_rgba(30,41,59,0.08)] transition hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(30,41,59,0.12)] ${isResolved ? "cursor-not-allowed opacity-80" : "cursor-pointer"}`}
     >
-      {/* Ticket title + status badge + delete button */}
       <div className="flex items-start justify-between gap-3">
         <h3 className="text-[clamp(1rem,0.35vw+0.88rem,1.35rem)] font-semibold leading-snug text-[#0f2137]">
           {ticket.title}
@@ -43,7 +141,6 @@ function TicketCard({ ticket, onAddToTask, onDeleteTicket }) {
             <span className="h-2.5 w-2.5 rounded-full bg-current" />
             {ticket.status}
           </span>
-          {/* Delete button — stopPropagation prevents card click from firing */}
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -76,7 +173,6 @@ function TicketCard({ ticket, onAddToTask, onDeleteTicket }) {
         {trimText(ticket.description)}
       </p>
 
-      {/* Metadata row: id, priority, customer, created date */}
       <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-[clamp(0.84rem,0.22vw+0.75rem,1rem)]">
         <span className="font-medium text-[#64748b]">#{ticket.id}</span>
         <span
@@ -114,6 +210,12 @@ function MainSection({
   onAddToTask,
   onCompleteTask,
   onDeleteTicket,
+  search,
+  onSearchChange,
+  filterPriority,
+  onFilterPriority,
+  filterStatus,
+  onFilterStatus,
 }) {
   return (
     <section className="mx-auto w-full max-w-370 px-5 pb-10 pt-4 sm:px-8 sm:pb-14">
@@ -122,16 +224,54 @@ function MainSection({
           <h2 className="text-[clamp(1.9rem,0.8vw+1.45rem,2.8rem)] font-semibold text-[#2d4258]">
             Customer Tickets
           </h2>
-          <div className="mt-4 grid grid-cols-1 gap-3 lg:grid-cols-2">
-            {tickets.map((ticket) => (
-              <TicketCard
-                key={ticket.id}
-                ticket={ticket}
-                onAddToTask={onAddToTask}
-                onDeleteTicket={onDeleteTicket}
-              />
-            ))}
-          </div>
+
+          {/* Filter Bar */}
+          <FilterBar
+            search={search}
+            onSearchChange={onSearchChange}
+            filterPriority={filterPriority}
+            onFilterPriority={onFilterPriority}
+            filterStatus={filterStatus}
+            onFilterStatus={onFilterStatus}
+          />
+
+          {/* Ticket list or empty state */}
+          {tickets.length === 0 ? (
+            <div className="mt-8 flex flex-col items-center justify-center rounded-xl border border-dashed border-[#cbd5e1] bg-white py-16 text-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={1.5}
+                className="h-12 w-12 text-[#cbd5e1]"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m21 21-4.35-4.35"
+                />
+              </svg>
+              <p className="mt-4 text-lg font-medium text-[#94a3b8]">
+                No tickets found
+              </p>
+              <p className="mt-1 text-sm text-[#b0bec5]">
+                Try adjusting your search or filters
+              </p>
+            </div>
+          ) : (
+            <div className="mt-4 grid grid-cols-1 gap-3 lg:grid-cols-2">
+              {tickets.map((ticket) => (
+                <TicketCard
+                  key={ticket.id}
+                  ticket={ticket}
+                  onAddToTask={onAddToTask}
+                  onDeleteTicket={onDeleteTicket}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
         <aside className="rounded-lg p-2 xl:pt-2">
