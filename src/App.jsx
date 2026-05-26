@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./components/Navbar";
@@ -8,11 +8,40 @@ import Footer from "./components/Footer";
 import NewTicketModal from "./components/NewTicketModal";
 import initialTickets from "./data/tickets.json";
 
+// Helper: load from localStorage or fallback to default
+function loadState(key, fallback) {
+  try {
+    const stored = localStorage.getItem(key);
+    return stored ? JSON.parse(stored) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
 function App() {
-  const [tickets, setTickets] = useState(initialTickets);
-  const [taskStatus, setTaskStatus] = useState([]);
-  const [resolvedTasks, setResolvedTasks] = useState([]);
+  const [tickets, setTickets] = useState(() =>
+    loadState("csz_tickets", initialTickets),
+  );
+  const [taskStatus, setTaskStatus] = useState(() =>
+    loadState("csz_taskStatus", []),
+  );
+  const [resolvedTasks, setResolvedTasks] = useState(() =>
+    loadState("csz_resolvedTasks", []),
+  );
   const [showModal, setShowModal] = useState(false);
+
+  // Save to localStorage whenever state changes
+  useEffect(() => {
+    localStorage.setItem("csz_tickets", JSON.stringify(tickets));
+  }, [tickets]);
+
+  useEffect(() => {
+    localStorage.setItem("csz_taskStatus", JSON.stringify(taskStatus));
+  }, [taskStatus]);
+
+  useEffect(() => {
+    localStorage.setItem("csz_resolvedTasks", JSON.stringify(resolvedTasks));
+  }, [resolvedTasks]);
 
   const inProgressCount = taskStatus.length;
   const resolvedCount = resolvedTasks.length;
