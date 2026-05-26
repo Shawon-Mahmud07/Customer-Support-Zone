@@ -43,6 +43,7 @@ function App() {
     localStorage.setItem("csz_resolvedTasks", JSON.stringify(resolvedTasks));
   }, [resolvedTasks]);
 
+  const totalCount = tickets.length + taskStatus.length + resolvedTasks.length;
   const inProgressCount = taskStatus.length;
   const resolvedCount = resolvedTasks.length;
 
@@ -112,6 +113,7 @@ function App() {
     <div className="min-h-screen bg-base-200">
       <Navbar onNewTicket={() => setShowModal(true)} />
       <Banner
+        totalCount={tickets.length + taskStatus.length + resolvedTasks.length}
         inProgressCount={uiState.inProgressCount}
         resolvedCount={uiState.resolvedCount}
       />
