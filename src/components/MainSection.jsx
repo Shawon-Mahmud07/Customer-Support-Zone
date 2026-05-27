@@ -39,15 +39,16 @@ function FilterBar({
     <div className="mt-4 flex flex-col gap-3">
       {/* Row 1: Search + Sort */}
       <div className="flex flex-wrap items-center gap-3">
-        {/* Search input */}
-        <div className="relative min-w-50 flex-1">
+        {/* Search */}
+        <div className="relative min-w-[200px] flex-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
             strokeWidth={2}
-            className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#94a3b8]"
+            className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2"
+            style={{ color: "var(--text-muted)" }}
           >
             <circle cx="11" cy="11" r="8" />
             <path
@@ -61,12 +62,18 @@ function FilterBar({
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Search tickets..."
-            className="w-full rounded-lg border border-[#e2e8f0] bg-white py-2 pl-9 pr-4 text-sm text-[#0f2137] outline-none transition focus:border-[#632EE3] focus:ring-2 focus:ring-[#632EE3]/20"
+            className="w-full rounded-lg border py-2 pl-9 pr-4 text-sm outline-none transition focus:ring-2 focus:ring-[#632EE3]/20 focus:border-[#632EE3]"
+            style={{
+              backgroundColor: "var(--input-bg)",
+              borderColor: "var(--input-border)",
+              color: "var(--text-primary)",
+            }}
           />
           {search && (
             <button
               onClick={() => onSearchChange("")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#94a3b8] hover:text-[#0f2137]"
+              className="absolute right-3 top-1/2 -translate-y-1/2"
+              style={{ color: "var(--text-muted)" }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -86,7 +93,7 @@ function FilterBar({
           )}
         </div>
 
-        {/* Sort dropdown */}
+        {/* Sort */}
         <div className="relative">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -94,7 +101,8 @@ function FilterBar({
             fill="none"
             stroke="currentColor"
             strokeWidth={2}
-            className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#94a3b8]"
+            className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2"
+            style={{ color: "var(--text-muted)" }}
           >
             <path
               strokeLinecap="round"
@@ -105,7 +113,12 @@ function FilterBar({
           <select
             value={sortBy}
             onChange={(e) => onSortChange(e.target.value)}
-            className="appearance-none rounded-lg border border-[#e2e8f0] bg-white py-2 pl-9 pr-8 text-sm font-medium text-[#374151] outline-none transition focus:border-[#632EE3] focus:ring-2 focus:ring-[#632EE3]/20 cursor-pointer"
+            className="appearance-none rounded-lg border py-2 pl-9 pr-8 text-sm font-medium outline-none transition focus:border-[#632EE3] focus:ring-2 focus:ring-[#632EE3]/20 cursor-pointer"
+            style={{
+              backgroundColor: "var(--input-bg)",
+              borderColor: "var(--input-border)",
+              color: "var(--text-primary)",
+            }}
           >
             {SORT_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>
@@ -113,14 +126,14 @@ function FilterBar({
               </option>
             ))}
           </select>
-          {/* Dropdown arrow */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
             strokeWidth={2}
-            className="pointer-events-none absolute right-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#94a3b8]"
+            className="pointer-events-none absolute right-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2"
+            style={{ color: "var(--text-muted)" }}
           >
             <path
               strokeLinecap="round"
@@ -131,43 +144,63 @@ function FilterBar({
         </div>
       </div>
 
-      {/* Row 2: Priority + Status filters */}
+      {/* Row 2: Priority + Status + Reset */}
       <div className="flex flex-wrap items-center gap-3">
-        {/* Priority filter */}
-        <div className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-white px-1 py-1">
+        {/* Priority */}
+        <div
+          className="flex items-center gap-1.5 rounded-lg border px-1 py-1"
+          style={{
+            backgroundColor: "var(--filter-bg)",
+            borderColor: "var(--border-color)",
+          }}
+        >
           {PRIORITIES.map((p) => (
             <button
               key={p}
               onClick={() => onFilterPriority(p)}
-              className={`rounded-md px-3 py-1 text-xs font-medium transition ${
+              className="rounded-md px-3 py-1 text-xs font-medium transition"
+              style={
                 filterPriority === p
-                  ? "bg-[#632EE3] text-white shadow-sm"
-                  : "text-[#64748b] hover:bg-[#f1f5f9]"
-              }`}
+                  ? { backgroundColor: "#632EE3", color: "#ffffff" }
+                  : {
+                      color: "var(--text-secondary)",
+                      backgroundColor: "transparent",
+                    }
+              }
             >
               {p}
             </button>
           ))}
         </div>
 
-        {/* Status filter */}
-        <div className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-white px-1 py-1">
+        {/* Status */}
+        <div
+          className="flex items-center gap-1.5 rounded-lg border px-1 py-1"
+          style={{
+            backgroundColor: "var(--filter-bg)",
+            borderColor: "var(--border-color)",
+          }}
+        >
           {STATUSES.map((s) => (
             <button
               key={s}
               onClick={() => onFilterStatus(s)}
-              className={`rounded-md px-3 py-1 text-xs font-medium transition ${
+              className="rounded-md px-3 py-1 text-xs font-medium transition"
+              style={
                 filterStatus === s
-                  ? "bg-[#632EE3] text-white shadow-sm"
-                  : "text-[#64748b] hover:bg-[#f1f5f9]"
-              }`}
+                  ? { backgroundColor: "#632EE3", color: "#ffffff" }
+                  : {
+                      color: "var(--text-secondary)",
+                      backgroundColor: "transparent",
+                    }
+              }
             >
               {s}
             </button>
           ))}
         </div>
 
-        {/* Active filters count + Reset */}
+        {/* Reset */}
         {(filterPriority !== "All" || filterStatus !== "All" || search) && (
           <button
             onClick={() => {
@@ -213,10 +246,17 @@ function TicketCard({ ticket, onAddToTask, onDeleteTicket }) {
           onAddToTask(ticket.id);
         }
       }}
-      className={`rounded-lg border border-[#e6e8ee] bg-white p-4 shadow-[0_5px_16px_rgba(30,41,59,0.08)] transition hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(30,41,59,0.12)] ${isResolved ? "cursor-not-allowed opacity-80" : "cursor-pointer"}`}
+      className={`rounded-lg border p-4 shadow-[0_5px_16px_rgba(30,41,59,0.08)] transition hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(30,41,59,0.12)] ${isResolved ? "cursor-not-allowed opacity-80" : "cursor-pointer"}`}
+      style={{
+        backgroundColor: "var(--bg-card)",
+        borderColor: "var(--border-color)",
+      }}
     >
       <div className="flex items-start justify-between gap-3">
-        <h3 className="text-[clamp(1rem,0.35vw+0.88rem,1.35rem)] font-semibold leading-snug text-[#0f2137]">
+        <h3
+          className="text-[clamp(1rem,0.35vw+0.88rem,1.35rem)] font-semibold leading-snug"
+          style={{ color: "var(--text-primary)" }}
+        >
           {ticket.title}
         </h3>
         <div className="flex shrink-0 items-center gap-2">
@@ -234,7 +274,8 @@ function TicketCard({ ticket, onAddToTask, onDeleteTicket }) {
             onKeyDown={(e) => e.stopPropagation()}
             aria-label={`Delete ticket ${ticket.id}`}
             title="Delete ticket"
-            className="flex h-7 w-7 items-center justify-center rounded-full text-[#94a3b8] transition hover:bg-red-50 hover:text-red-500"
+            className="flex h-7 w-7 items-center justify-center rounded-full transition hover:bg-red-50 hover:text-red-500"
+            style={{ color: "var(--text-muted)" }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -254,19 +295,29 @@ function TicketCard({ ticket, onAddToTask, onDeleteTicket }) {
         </div>
       </div>
 
-      <p className="mt-3 text-[clamp(0.9rem,0.2vw+0.82rem,1.1rem)] leading-tight text-[#5c6d82]">
+      <p
+        className="mt-3 text-[clamp(0.9rem,0.2vw+0.82rem,1.1rem)] leading-tight"
+        style={{ color: "var(--text-secondary)" }}
+      >
         {trimText(ticket.description)}
       </p>
 
       <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-[clamp(0.84rem,0.22vw+0.75rem,1rem)]">
-        <span className="font-medium text-[#64748b]">#{ticket.id}</span>
+        <span className="font-medium" style={{ color: "var(--text-muted)" }}>
+          #{ticket.id}
+        </span>
         <span
           className={`font-medium uppercase tracking-[0.02em] ${priorityStyles[ticket.priority]}`}
         >
           {ticket.priority} Priority
         </span>
-        <span className="ml-auto text-[#6b7d92]">{ticket.customer}</span>
-        <span className="inline-flex items-center gap-1.5 text-[#6b7d92]">
+        <span className="ml-auto" style={{ color: "var(--text-secondary)" }}>
+          {ticket.customer}
+        </span>
+        <span
+          className="inline-flex items-center gap-1.5"
+          style={{ color: "var(--text-secondary)" }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -308,7 +359,10 @@ function MainSection({
     <section className="mx-auto w-full max-w-370 px-5 pb-10 pt-4 sm:px-8 sm:pb-14">
       <div className="flex flex-col-reverse gap-6 xl:grid xl:grid-cols-[2fr_1fr] xl:gap-8">
         <div>
-          <h2 className="text-[clamp(1.9rem,0.8vw+1.45rem,2.8rem)] font-semibold text-[#2d4258]">
+          <h2
+            className="text-[clamp(1.9rem,0.8vw+1.45rem,2.8rem)] font-semibold"
+            style={{ color: "var(--text-primary)" }}
+          >
             Customer Tickets
           </h2>
 
@@ -324,14 +378,21 @@ function MainSection({
           />
 
           {tickets.length === 0 ? (
-            <div className="mt-8 flex flex-col items-center justify-center rounded-xl border border-dashed border-[#cbd5e1] bg-white py-16 text-center">
+            <div
+              className="mt-8 flex flex-col items-center justify-center rounded-xl border border-dashed py-16 text-center"
+              style={{
+                borderColor: "var(--border-color)",
+                backgroundColor: "var(--bg-card)",
+              }}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth={1.5}
-                className="h-12 w-12 text-[#cbd5e1]"
+                className="h-12 w-12"
+                style={{ color: "var(--border-color)" }}
               >
                 <circle cx="11" cy="11" r="8" />
                 <path
@@ -340,10 +401,16 @@ function MainSection({
                   d="m21 21-4.35-4.35"
                 />
               </svg>
-              <p className="mt-4 text-lg font-medium text-[#94a3b8]">
+              <p
+                className="mt-4 text-lg font-medium"
+                style={{ color: "var(--text-muted)" }}
+              >
                 No tickets found
               </p>
-              <p className="mt-1 text-sm text-[#b0bec5]">
+              <p
+                className="mt-1 text-sm"
+                style={{ color: "var(--text-muted)" }}
+              >
                 Try adjusting your search or filters
               </p>
             </div>
@@ -362,12 +429,18 @@ function MainSection({
         </div>
 
         <aside className="rounded-lg p-2 xl:pt-2">
-          <h3 className="text-[clamp(1.7rem,0.6vw+1.35rem,2.2rem)] font-semibold text-[#2d4258]">
+          <h3
+            className="text-[clamp(1.7rem,0.6vw+1.35rem,2.2rem)] font-semibold"
+            style={{ color: "var(--text-primary)" }}
+          >
             Task Status
           </h3>
 
           {taskStatus.length === 0 ? (
-            <p className="mt-1 text-[clamp(1rem,0.25vw+0.9rem,1.15rem)] text-[#6a7d91]">
+            <p
+              className="mt-1 text-[clamp(1rem,0.25vw+0.9rem,1.15rem)]"
+              style={{ color: "var(--text-secondary)" }}
+            >
               Select a ticket to add to Task Status
             </p>
           ) : (
@@ -375,9 +448,16 @@ function MainSection({
               {taskStatus.map((ticket) => (
                 <article
                   key={ticket.id}
-                  className="rounded-lg border border-[#e6e8ee] bg-white p-4 shadow-[0_5px_16px_rgba(30,41,59,0.08)]"
+                  className="rounded-lg border p-4 shadow-[0_5px_16px_rgba(30,41,59,0.08)]"
+                  style={{
+                    backgroundColor: "var(--bg-card)",
+                    borderColor: "var(--border-color)",
+                  }}
                 >
-                  <h4 className="text-[clamp(1.12rem,0.3vw+0.98rem,1.3rem)] font-semibold text-[#0f2137]">
+                  <h4
+                    className="text-[clamp(1.12rem,0.3vw+0.98rem,1.3rem)] font-semibold"
+                    style={{ color: "var(--text-primary)" }}
+                  >
                     {ticket.title}
                   </h4>
                   <button
@@ -391,19 +471,29 @@ function MainSection({
             </div>
           )}
 
-          <h3 className="mt-10 text-[clamp(1.7rem,0.6vw+1.35rem,2.2rem)] font-semibold text-[#2d4258]">
+          <h3
+            className="mt-10 text-[clamp(1.7rem,0.6vw+1.35rem,2.2rem)] font-semibold"
+            style={{ color: "var(--text-primary)" }}
+          >
             Resolved Task
           </h3>
           {resolvedTasks.length === 0 ? (
-            <p className="mt-1 text-[clamp(1rem,0.25vw+0.9rem,1.15rem)] text-[#6a7d91]">
+            <p
+              className="mt-1 text-[clamp(1rem,0.25vw+0.9rem,1.15rem)]"
+              style={{ color: "var(--text-secondary)" }}
+            >
               No resolved tasks yet.
             </p>
           ) : (
-            <ul className="mt-3 space-y-2 text-[clamp(1rem,0.25vw+0.9rem,1.15rem)] text-[#3f5167]">
+            <ul className="mt-3 space-y-2 text-[clamp(1rem,0.25vw+0.9rem,1.15rem)]">
               {resolvedTasks.map((ticket) => (
                 <li
                   key={ticket.id}
-                  className="rounded-md bg-white px-3 py-2 shadow-[0_3px_10px_rgba(30,41,59,0.08)]"
+                  className="rounded-md px-3 py-2 shadow-[0_3px_10px_rgba(30,41,59,0.08)]"
+                  style={{
+                    backgroundColor: "var(--bg-card)",
+                    color: "var(--text-primary)",
+                  }}
                 >
                   {ticket.title}
                 </li>
