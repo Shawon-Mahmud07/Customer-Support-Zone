@@ -13,12 +13,18 @@ const priorityStyles = {
 const PRIORITIES = ["All", "High", "Medium", "Low"];
 const STATUSES = ["All", "Open", "In-Progress"];
 
+const SORT_OPTIONS = [
+  { value: "newest", label: "Newest" },
+  { value: "oldest", label: "Oldest" },
+  { value: "priority-asc", label: "Priority ↑" },
+  { value: "priority-desc", label: "Priority ↓" },
+];
+
 function trimText(text, max = 92) {
   if (text.length <= max) return text;
   return `${text.slice(0, max)}...`;
 }
 
-// Search & Filter Bar
 function FilterBar({
   search,
   onSearchChange,
@@ -26,38 +32,150 @@ function FilterBar({
   onFilterPriority,
   filterStatus,
   onFilterStatus,
+  sortBy,
+  onSortChange,
 }) {
   return (
-    <div className="mt-4 flex flex-wrap items-center gap-3">
-      {/* Search input */}
-      <div className="relative min-w-50 flex-1">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={2}
-          className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#94a3b8]"
-        >
-          <circle cx="11" cy="11" r="8" />
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="m21 21-4.35-4.35"
+    <div className="mt-4 flex flex-col gap-3">
+      {/* Row 1: Search + Sort */}
+      <div className="flex flex-wrap items-center gap-3">
+        {/* Search input */}
+        <div className="relative min-w-50 flex-1">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#94a3b8]"
+          >
+            <circle cx="11" cy="11" r="8" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="m21 21-4.35-4.35"
+            />
+          </svg>
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => onSearchChange(e.target.value)}
+            placeholder="Search tickets..."
+            className="w-full rounded-lg border border-[#e2e8f0] bg-white py-2 pl-9 pr-4 text-sm text-[#0f2137] outline-none transition focus:border-[#632EE3] focus:ring-2 focus:ring-[#632EE3]/20"
           />
-        </svg>
-        <input
-          type="text"
-          value={search}
-          onChange={(e) => onSearchChange(e.target.value)}
-          placeholder="Search tickets..."
-          className="w-full rounded-lg border border-[#e2e8f0] bg-white py-2 pl-9 pr-4 text-sm text-[#0f2137] outline-none transition focus:border-[#632EE3] focus:ring-2 focus:ring-[#632EE3]/20"
-        />
-        {/* Clear button */}
-        {search && (
+          {search && (
+            <button
+              onClick={() => onSearchChange("")}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#94a3b8] hover:text-[#0f2137]"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                className="h-4 w-4"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18 18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          )}
+        </div>
+
+        {/* Sort dropdown */}
+        <div className="relative">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#94a3b8]"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M3 6h18M6 12h12M9 18h6"
+            />
+          </svg>
+          <select
+            value={sortBy}
+            onChange={(e) => onSortChange(e.target.value)}
+            className="appearance-none rounded-lg border border-[#e2e8f0] bg-white py-2 pl-9 pr-8 text-sm font-medium text-[#374151] outline-none transition focus:border-[#632EE3] focus:ring-2 focus:ring-[#632EE3]/20 cursor-pointer"
+          >
+            {SORT_OPTIONS.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+          {/* Dropdown arrow */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            className="pointer-events-none absolute right-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#94a3b8]"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="m6 9 6 6 6-6"
+            />
+          </svg>
+        </div>
+      </div>
+
+      {/* Row 2: Priority + Status filters */}
+      <div className="flex flex-wrap items-center gap-3">
+        {/* Priority filter */}
+        <div className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-white px-1 py-1">
+          {PRIORITIES.map((p) => (
+            <button
+              key={p}
+              onClick={() => onFilterPriority(p)}
+              className={`rounded-md px-3 py-1 text-xs font-medium transition ${
+                filterPriority === p
+                  ? "bg-[#632EE3] text-white shadow-sm"
+                  : "text-[#64748b] hover:bg-[#f1f5f9]"
+              }`}
+            >
+              {p}
+            </button>
+          ))}
+        </div>
+
+        {/* Status filter */}
+        <div className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-white px-1 py-1">
+          {STATUSES.map((s) => (
+            <button
+              key={s}
+              onClick={() => onFilterStatus(s)}
+              className={`rounded-md px-3 py-1 text-xs font-medium transition ${
+                filterStatus === s
+                  ? "bg-[#632EE3] text-white shadow-sm"
+                  : "text-[#64748b] hover:bg-[#f1f5f9]"
+              }`}
+            >
+              {s}
+            </button>
+          ))}
+        </div>
+
+        {/* Active filters count + Reset */}
+        {(filterPriority !== "All" || filterStatus !== "All" || search) && (
           <button
-            onClick={() => onSearchChange("")}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-[#94a3b8] hover:text-[#0f2137]"
+            onClick={() => {
+              onFilterPriority("All");
+              onFilterStatus("All");
+              onSearchChange("");
+            }}
+            className="flex items-center gap-1.5 rounded-lg border border-red-200 bg-red-50 px-3 py-1.5 text-xs font-medium text-red-500 transition hover:bg-red-100"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -65,7 +183,7 @@ function FilterBar({
               fill="none"
               stroke="currentColor"
               strokeWidth={2}
-              className="h-4 w-4"
+              className="h-3.5 w-3.5"
             >
               <path
                 strokeLinecap="round"
@@ -73,42 +191,9 @@ function FilterBar({
                 d="M6 18 18 6M6 6l12 12"
               />
             </svg>
+            Reset Filters
           </button>
         )}
-      </div>
-
-      {/* Priority filter */}
-      <div className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-white px-1 py-1">
-        {PRIORITIES.map((p) => (
-          <button
-            key={p}
-            onClick={() => onFilterPriority(p)}
-            className={`rounded-md px-3 py-1 text-xs font-medium transition ${
-              filterPriority === p
-                ? "bg-[#632EE3] text-white shadow-sm"
-                : "text-[#64748b] hover:bg-[#f1f5f9]"
-            }`}
-          >
-            {p}
-          </button>
-        ))}
-      </div>
-
-      {/* Status filter */}
-      <div className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-white px-1 py-1">
-        {STATUSES.map((s) => (
-          <button
-            key={s}
-            onClick={() => onFilterStatus(s)}
-            className={`rounded-md px-3 py-1 text-xs font-medium transition ${
-              filterStatus === s
-                ? "bg-[#632EE3] text-white shadow-sm"
-                : "text-[#64748b] hover:bg-[#f1f5f9]"
-            }`}
-          >
-            {s}
-          </button>
-        ))}
       </div>
     </div>
   );
@@ -216,6 +301,8 @@ function MainSection({
   onFilterPriority,
   filterStatus,
   onFilterStatus,
+  sortBy,
+  onSortChange,
 }) {
   return (
     <section className="mx-auto w-full max-w-370 px-5 pb-10 pt-4 sm:px-8 sm:pb-14">
@@ -225,7 +312,6 @@ function MainSection({
             Customer Tickets
           </h2>
 
-          {/* Filter Bar */}
           <FilterBar
             search={search}
             onSearchChange={onSearchChange}
@@ -233,9 +319,10 @@ function MainSection({
             onFilterPriority={onFilterPriority}
             filterStatus={filterStatus}
             onFilterStatus={onFilterStatus}
+            sortBy={sortBy}
+            onSortChange={onSortChange}
           />
 
-          {/* Ticket list or empty state */}
           {tickets.length === 0 ? (
             <div className="mt-8 flex flex-col items-center justify-center rounded-xl border border-dashed border-[#cbd5e1] bg-white py-16 text-center">
               <svg

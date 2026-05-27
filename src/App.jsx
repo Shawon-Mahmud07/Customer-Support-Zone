@@ -17,6 +17,8 @@ function loadState(key, fallback) {
   }
 }
 
+const PRIORITY_ORDER = { High: 0, Medium: 1, Low: 2 };
+
 function App() {
   const [tickets, setTickets] = useState(() =>
     loadState("csz_tickets", initialTickets),
@@ -34,6 +36,9 @@ function App() {
   const [filterPriority, setFilterPriority] = useState("All");
   const [filterStatus, setFilterStatus] = useState("All");
 
+  // Sort state: "newest" | "oldest" | "priority-asc" | "priority-desc"
+  const [sortBy, setSortBy] = useState("newest");
+
   useEffect(() => {
     localStorage.setItem("csz_tickets", JSON.stringify(tickets));
   }, [tickets]);
@@ -46,9 +51,9 @@ function App() {
     localStorage.setItem("csz_resolvedTasks", JSON.stringify(resolvedTasks));
   }, [resolvedTasks]);
 
-  // Filtered tickets
+  // Filtered + Sorted tickets
   const filteredTickets = useMemo(() => {
-    return tickets.filter((ticket) => {
+    let result = tickets.filter((ticket) => {
       const matchSearch = ticket.title
         .toLowerCase()
         .includes(search.toLowerCase());
@@ -58,7 +63,19 @@ function App() {
         filterStatus === "All" || ticket.status === filterStatus;
       return matchSearch && matchPriority && matchStatus;
     });
-  }, [tickets, search, filterPriority, filterStatus]);
+
+    result = [...result].sort((a, b) => {
+      if (sortBy === "newest") return b.id - a.id;
+      if (sortBy === "oldest") return a.id - b.id;
+      if (sortBy === "priority-asc")
+        return PRIORITY_ORDER[a.priority] - PRIORITY_ORDER[b.priority];
+      if (sortBy === "priority-desc")
+        return PRIORITY_ORDER[b.priority] - PRIORITY_ORDER[a.priority];
+      return 0;
+    });
+
+    return result;
+  }, [tickets, search, filterPriority, filterStatus, sortBy]);
 
   const totalCount = tickets.length + taskStatus.length + resolvedTasks.length;
   const inProgressCount = taskStatus.length;
@@ -136,6 +153,8 @@ function App() {
         onFilterPriority={setFilterPriority}
         filterStatus={filterStatus}
         onFilterStatus={setFilterStatus}
+        sortBy={sortBy}
+        onSortChange={setSortBy}
       />
       <Footer />
       <ToastContainer
