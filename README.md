@@ -9,12 +9,16 @@ A clean, responsive **Customer Support Ticket Management System** built with Rea
 ## ✨ Features
 
 - **View Tickets** — All customer tickets displayed in a responsive card grid
+- **Search, Filter & Sort** — Search by title, filter by priority/status, and sort (newest/oldest/priority)
 - **Add to Task** — Click any open ticket to move it to the Task Status panel
 - **Complete Tasks** — Mark in-progress tickets as resolved with one click
 - **Delete Tickets** — Remove any ticket instantly with the trash icon
 - **New Ticket Modal** — Create new tickets via a validated form modal
-- **Live Counters** — Banner shows real-time In-Progress and Resolved counts
+- **Ticket Details Modal** — Click a ticket card to view full details and take actions
+- **Live Counters** — Banner shows real-time Total / In-Progress / Resolved counts
 - **Toast Notifications** — Instant feedback on every action via React-Toastify
+- **Theme Toggle (Light/Dark)** — DaisyUI theme switching with localStorage persistence
+- **Persistent State** — Tickets, task status, resolved tasks (and theme) persist in localStorage
 - **Fully Responsive** — Works on mobile, tablet, and desktop
 
 ---
