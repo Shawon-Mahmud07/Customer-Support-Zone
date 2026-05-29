@@ -1,3 +1,6 @@
+import { useState } from "react";
+import TicketDetailModal from "./TicketDetailModal";
+
 const statusStyles = {
   Open: "bg-[#A6E9BC] text-[#087A2A]",
   "In-Progress": "bg-[#F4E18D] text-[#9A7400]",
@@ -37,7 +40,6 @@ function FilterBar({
 }) {
   return (
     <div className="mt-4 flex flex-col gap-3">
-      {/* Row 1: Search + Sort */}
       <div className="flex flex-wrap items-center gap-3">
         {/* Search */}
         <div className="relative min-w-[200px] flex-1">
@@ -144,7 +146,6 @@ function FilterBar({
         </div>
       </div>
 
-      {/* Row 2: Priority + Status + Reset */}
       <div className="flex flex-wrap items-center gap-3">
         {/* Priority */}
         <div
@@ -161,11 +162,8 @@ function FilterBar({
               className="rounded-md px-3 py-1 text-xs font-medium transition"
               style={
                 filterPriority === p
-                  ? { backgroundColor: "#632EE3", color: "#ffffff" }
-                  : {
-                      color: "var(--text-secondary)",
-                      backgroundColor: "transparent",
-                    }
+                  ? { backgroundColor: "#632EE3", color: "#fff" }
+                  : { color: "var(--text-secondary)" }
               }
             >
               {p}
@@ -188,11 +186,8 @@ function FilterBar({
               className="rounded-md px-3 py-1 text-xs font-medium transition"
               style={
                 filterStatus === s
-                  ? { backgroundColor: "#632EE3", color: "#ffffff" }
-                  : {
-                      color: "var(--text-secondary)",
-                      backgroundColor: "transparent",
-                    }
+                  ? { backgroundColor: "#632EE3", color: "#fff" }
+                  : { color: "var(--text-secondary)" }
               }
             >
               {s}
@@ -232,21 +227,19 @@ function FilterBar({
   );
 }
 
-function TicketCard({ ticket, onAddToTask, onDeleteTicket }) {
-  const isResolved = ticket.status === "Resolved";
-
+function TicketCard({ ticket, onOpenDetail }) {
   return (
     <article
       role="button"
-      tabIndex={isResolved ? -1 : 0}
-      onClick={() => !isResolved && onAddToTask(ticket.id)}
-      onKeyDown={(event) => {
-        if (!isResolved && (event.key === "Enter" || event.key === " ")) {
-          event.preventDefault();
-          onAddToTask(ticket.id);
+      tabIndex={0}
+      onClick={() => onOpenDetail(ticket)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onOpenDetail(ticket);
         }
       }}
-      className={`rounded-lg border p-4 shadow-[0_5px_16px_rgba(30,41,59,0.08)] transition hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(30,41,59,0.12)] ${isResolved ? "cursor-not-allowed opacity-80" : "cursor-pointer"}`}
+      className="cursor-pointer rounded-lg border p-4 shadow-[0_5px_16px_rgba(30,41,59,0.08)] transition hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(30,41,59,0.12)]"
       style={{
         backgroundColor: "var(--bg-card)",
         borderColor: "var(--border-color)",
@@ -259,40 +252,12 @@ function TicketCard({ ticket, onAddToTask, onDeleteTicket }) {
         >
           {ticket.title}
         </h3>
-        <div className="flex shrink-0 items-center gap-2">
-          <span
-            className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[clamp(0.82rem,0.22vw+0.74rem,1rem)] font-medium ${statusStyles[ticket.status]}`}
-          >
-            <span className="h-2.5 w-2.5 rounded-full bg-current" />
-            {ticket.status}
-          </span>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onDeleteTicket(ticket.id);
-            }}
-            onKeyDown={(e) => e.stopPropagation()}
-            aria-label={`Delete ticket ${ticket.id}`}
-            title="Delete ticket"
-            className="flex h-7 w-7 items-center justify-center rounded-full transition hover:bg-red-50 hover:text-red-500"
-            style={{ color: "var(--text-muted)" }}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              className="h-4 w-4"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"
-              />
-            </svg>
-          </button>
-        </div>
+        <span
+          className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1 text-[clamp(0.82rem,0.22vw+0.74rem,1rem)] font-medium ${statusStyles[ticket.status]}`}
+        >
+          <span className="h-2.5 w-2.5 rounded-full bg-current" />
+          {ticket.status}
+        </span>
       </div>
 
       <p
@@ -335,6 +300,11 @@ function TicketCard({ ticket, onAddToTask, onDeleteTicket }) {
           {ticket.createdAt}
         </span>
       </div>
+
+      {/* Click hint */}
+      <p className="mt-3 text-xs" style={{ color: "var(--text-muted)" }}>
+        Click to view details
+      </p>
     </article>
   );
 }
@@ -355,6 +325,8 @@ function MainSection({
   sortBy,
   onSortChange,
 }) {
+  const [selectedTicket, setSelectedTicket] = useState(null);
+
   return (
     <section className="mx-auto w-full max-w-370 px-5 pb-10 pt-4 sm:px-8 sm:pb-14">
       <div className="flex flex-col-reverse gap-6 xl:grid xl:grid-cols-[2fr_1fr] xl:gap-8">
@@ -420,8 +392,7 @@ function MainSection({
                 <TicketCard
                   key={ticket.id}
                   ticket={ticket}
-                  onAddToTask={onAddToTask}
-                  onDeleteTicket={onDeleteTicket}
+                  onOpenDetail={setSelectedTicket}
                 />
               ))}
             </div>
@@ -502,6 +473,22 @@ function MainSection({
           )}
         </aside>
       </div>
+
+      {/* Ticket Detail Modal */}
+      {selectedTicket && (
+        <TicketDetailModal
+          ticket={selectedTicket}
+          onClose={() => setSelectedTicket(null)}
+          onAddToTask={(id) => {
+            onAddToTask(id);
+            setSelectedTicket(null);
+          }}
+          onDelete={(id) => {
+            onDeleteTicket(id);
+            setSelectedTicket(null);
+          }}
+        />
+      )}
     </section>
   );
 }
