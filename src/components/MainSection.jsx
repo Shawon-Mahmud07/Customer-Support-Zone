@@ -42,7 +42,7 @@ function FilterBar({
     <div className="mt-4 flex flex-col gap-3">
       <div className="flex flex-wrap items-center gap-3">
         {/* Search */}
-        <div className="relative min-w-[200px] flex-1">
+        <div className="relative min-w-50 flex-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -324,6 +324,7 @@ function MainSection({
   onFilterStatus,
   sortBy,
   onSortChange,
+  onEditTicket,
 }) {
   const [selectedTicket, setSelectedTicket] = useState(null);
 
@@ -485,6 +486,10 @@ function MainSection({
           }}
           onDelete={(id) => {
             onDeleteTicket(id);
+            setSelectedTicket(null);
+          }}
+          onEdit={(id, fields) => {
+            onEditTicket(id, fields);
             setSelectedTicket(null);
           }}
         />

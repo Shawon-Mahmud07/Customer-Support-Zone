@@ -95,7 +95,7 @@ function App() {
     setShowModal(false);
     toast.success("New ticket created!");
   }
-
+// Add to Task Status
   function handleAddToTask(ticketId) {
     const selected = tickets.find((ticket) => ticket.id === ticketId);
     if (!selected) return;
@@ -114,13 +114,14 @@ function App() {
     );
     toast.success("Ticket added to Task Status.");
   }
-
+// Delete ticket
   function handleDeleteTicket(ticketId) {
     setTickets((prev) => prev.filter((ticket) => ticket.id !== ticketId));
     setTaskStatus((prev) => prev.filter((ticket) => ticket.id !== ticketId));
     toast.error("Ticket deleted.");
   }
 
+  // Mark task as complete
   function handleCompleteTask(ticketId) {
     const selected = taskStatus.find((ticket) => ticket.id === ticketId);
     if (!selected) return;
@@ -132,6 +133,21 @@ function App() {
     toast.success("Task marked as complete.");
   }
 
+  // Edit ticket
+  function handleEditTicket(ticketId, updatedFields) {
+    setTickets((prev) =>
+      prev.map((ticket) =>
+        ticket.id === ticketId ? { ...ticket, ...updatedFields } : ticket,
+      ),
+    );
+    setTaskStatus((prev) =>
+      prev.map((ticket) =>
+        ticket.id === ticketId ? { ...ticket, ...updatedFields } : ticket,
+      ),
+    );
+    toast.success("Ticket updated successfully!");
+  }
+
   return (
     <div className="min-h-screen bg-base-200">
       <Navbar onNewTicket={() => setShowModal(true)} />
@@ -141,6 +157,7 @@ function App() {
         resolvedCount={resolvedCount}
       />
       <MainSection
+        onEditTicket={handleEditTicket}
         tickets={filteredTickets}
         taskStatus={taskStatus}
         resolvedTasks={resolvedTasks}
