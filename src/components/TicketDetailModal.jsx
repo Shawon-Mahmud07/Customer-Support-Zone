@@ -16,6 +16,7 @@ const PRIORITIES = ["High", "Medium", "Low"];
 
 function TicketDetailModal({ ticket, onClose, onAddToTask, onDelete, onEdit }) {
   const [isEditing, setIsEditing] = useState(false);
+  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
   const [form, setForm] = useState({
     title: ticket.title,
     description: ticket.description,
@@ -392,26 +393,51 @@ function TicketDetailModal({ ticket, onClose, onAddToTask, onDelete, onEdit }) {
           ) : (
             /* View mode footer */
             <>
-              <button
-                onClick={() => onDelete(ticket.id)}
-                className="flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm font-medium text-red-500 transition hover:bg-red-100"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  className="h-4 w-4"
+              {isConfirmingDelete ? (
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-medium text-red-500">
+                    Sure?
+                  </span>
+                  <button
+                    onClick={() => onDelete(ticket.id)}
+                    className="rounded-lg bg-red-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-600"
+                  >
+                    Yes, Delete
+                  </button>
+                  <button
+                    onClick={() => setIsConfirmingDelete(false)}
+                    className="rounded-lg border px-4 py-2 text-sm font-medium transition hover:opacity-80"
+                    style={{
+                      borderColor: "var(--border-color)",
+                      color: "var(--text-secondary)",
+                      backgroundColor: "var(--bg-base)",
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setIsConfirmingDelete(true)}
+                  className="flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm font-medium text-red-500 transition hover:bg-red-100"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"
-                  />
-                </svg>
-                Delete
-              </button>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    className="h-4 w-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"
+                    />
+                  </svg>
+                  Delete
+                </button>
+              )}
 
               <div className="flex items-center gap-2">
                 {!isResolved && (
