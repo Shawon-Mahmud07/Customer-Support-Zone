@@ -29,6 +29,9 @@ function App() {
   const [resolvedTasks, setResolvedTasks] = useState(() =>
     loadState("csz_resolvedTasks", []),
   );
+  const [ticketNotes, setTicketNotes] = useState(() =>
+    loadState("csz_ticketNotes", {}),
+  );
   const [showModal, setShowModal] = useState(false);
 
   // Search & Filter state
@@ -50,6 +53,10 @@ function App() {
   useEffect(() => {
     localStorage.setItem("csz_resolvedTasks", JSON.stringify(resolvedTasks));
   }, [resolvedTasks]);
+  // Persist ticket notes
+  useEffect(() => {
+    localStorage.setItem("csz_ticketNotes", JSON.stringify(ticketNotes));
+  }, [ticketNotes]);
 
   // Filtered + Sorted tickets
   const filteredTickets = useMemo(() => {
@@ -147,6 +154,25 @@ function App() {
     );
     toast.success("Ticket updated successfully!");
   }
+  // Add note to ticket
+  function handleAddNote(ticketId, noteText) {
+    const newNote = {
+      id: Date.now(),
+      text: noteText.trim(),
+      createdAt: new Date().toLocaleString("en-US"),
+    };
+    setTicketNotes((prev) => ({
+      ...prev,
+      [ticketId]: [newNote, ...(prev[ticketId] || [])],
+    }));
+  }
+
+  function handleDeleteNote(ticketId, noteId) {
+    setTicketNotes((prev) => ({
+      ...prev,
+      [ticketId]: (prev[ticketId] || []).filter((n) => n.id !== noteId),
+    }));
+  }
 
   return (
     <div className="min-h-screen bg-base-200">
@@ -172,6 +198,9 @@ function App() {
         onFilterStatus={setFilterStatus}
         sortBy={sortBy}
         onSortChange={setSortBy}
+        ticketNotes={ticketNotes}
+        onAddNote={handleAddNote}
+        onDeleteNote={handleDeleteNote}
       />
       <Footer />
       <ToastContainer
