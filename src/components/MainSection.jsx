@@ -325,6 +325,9 @@ function MainSection({
   sortBy,
   onSortChange,
   onEditTicket,
+  ticketNotes,
+  onAddNote,
+  onDeleteNote,
 }) {
   const [selectedTicket, setSelectedTicket] = useState(null);
 
@@ -479,6 +482,9 @@ function MainSection({
       {selectedTicket && (
         <TicketDetailModal
           ticket={selectedTicket}
+          notes={ticketNotes[selectedTicket?.id] || []}
+          onAddNote={(text) => onAddNote(selectedTicket.id, text)}
+          onDeleteNote={(noteId) => onDeleteNote(selectedTicket.id, noteId)}
           onClose={() => setSelectedTicket(null)}
           onAddToTask={(id) => {
             onAddToTask(id);

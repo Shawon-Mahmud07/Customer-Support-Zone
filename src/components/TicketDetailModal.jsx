@@ -14,8 +14,18 @@ const priorityStyles = {
 
 const PRIORITIES = ["High", "Medium", "Low"];
 
-function TicketDetailModal({ ticket, onClose, onAddToTask, onDelete, onEdit }) {
+function TicketDetailModal({
+  ticket,
+  notes = [],
+  onAddNote,
+  onDeleteNote,
+  onClose,
+  onAddToTask,
+  onDelete,
+  onEdit,
+}) {
   const [isEditing, setIsEditing] = useState(false);
+  const [noteInput, setNoteInput] = useState("");
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
   const [form, setForm] = useState({
     title: ticket.title,
@@ -38,13 +48,19 @@ function TicketDetailModal({ ticket, onClose, onAddToTask, onDelete, onEdit }) {
     setForm((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: undefined }));
   }
-
+// Validation
   function validate() {
     const e = {};
     if (!form.title.trim()) e.title = "Title is required.";
     if (!form.description.trim()) e.description = "Description is required.";
     if (!form.customer.trim()) e.customer = "Customer name is required.";
     return e;
+  }
+// Note handlers
+  function handleNoteSubmit() {
+    if (!noteInput.trim()) return;
+    onAddNote(noteInput);
+    setNoteInput("");
   }
 
   function handleSave() {
@@ -360,6 +376,107 @@ function TicketDetailModal({ ticket, onClose, onAddToTask, onDelete, onEdit }) {
                   </div>
                 </div>
               </div>
+              {/* ── NOTES SECTION ── */}
+              {!isEditing && (
+                <div>
+                  <p
+                    className="mb-2 text-xs font-semibold uppercase tracking-wider"
+                    style={{ color: "var(--text-muted)" }}
+                  >
+                    Notes{" "}
+                    {notes.length > 0 && (
+                      <span className="ml-1 rounded-full bg-[#632EE3]/10 px-2 py-0.5 text-[#632EE3]">
+                        {notes.length}
+                      </span>
+                    )}
+                  </p>
+
+                  {/* Input */}
+                  <div className="flex gap-2 mb-3">
+                    <input
+                      type="text"
+                      value={noteInput}
+                      onChange={(e) => setNoteInput(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && handleNoteSubmit()}
+                      placeholder="Add a note and press Enter..."
+                      className="flex-1 rounded-lg border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#632EE3]/30 focus:border-[#632EE3]"
+                      style={{
+                        backgroundColor: "var(--input-bg)",
+                        borderColor: "var(--input-border)",
+                        color: "var(--text-primary)",
+                      }}
+                    />
+                    <button
+                      onClick={handleNoteSubmit}
+                      disabled={!noteInput.trim()}
+                      className="rounded-lg bg-[linear-gradient(90deg,#632EE3_0%,#9F62F2_100%)] px-4 py-2 text-sm font-semibold text-white transition hover:brightness-95 disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      Add
+                    </button>
+                  </div>
+
+                  {/* Notes List */}
+                  {notes.length === 0 ? (
+                    <p
+                      className="text-center text-xs py-3 rounded-lg border border-dashed"
+                      style={{
+                        color: "var(--text-muted)",
+                        borderColor: "var(--border-color)",
+                      }}
+                    >
+                      No notes yet. Add one above!
+                    </p>
+                  ) : (
+                    <div className="space-y-2 max-h-40 overflow-y-auto pr-1">
+                      {notes.map((note) => (
+                        <div
+                          key={note.id}
+                          className="flex items-start justify-between gap-2 rounded-lg border px-3 py-2.5"
+                          style={{
+                            borderColor: "var(--border-color)",
+                            backgroundColor: "var(--bg-base)",
+                          }}
+                        >
+                          <div className="flex-1 min-w-0">
+                            <p
+                              className="text-sm leading-relaxed wrap-break-word"
+                              style={{ color: "var(--text-primary)" }}
+                            >
+                              {note.text}
+                            </p>
+                            <p
+                              className="mt-1 text-xs"
+                              style={{ color: "var(--text-muted)" }}
+                            >
+                              {note.createdAt}
+                            </p>
+                          </div>
+                          <button
+                            onClick={() => onDeleteNote(note.id)}
+                            className="shrink-0 rounded p-1 transition hover:bg-red-50 hover:text-red-400"
+                            style={{ color: "var(--text-muted)" }}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth={2}
+                              className="h-3.5 w-3.5"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M6 18 18 6M6 6l12 12"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
             </>
           )}
         </div>
