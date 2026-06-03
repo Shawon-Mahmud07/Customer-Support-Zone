@@ -67,12 +67,18 @@ function Navbar({ onNewTicket }) {
 
         <div className="hidden items-center gap-3 lg:flex">
           <nav>
-            <ul className="flex items-center gap-8 text-[clamp(0.92rem,0.6vw+0.48rem,1.3rem)] font-medium tracking-[-0.01em]"
+            <ul
+              className="flex items-center gap-8 text-[clamp(0.92rem,0.6vw+0.48rem,1.3rem)] font-medium tracking-[-0.01em]"
               style={{ color: "var(--text-secondary)" }}
             >
               {navItems.map((item) => (
                 <li key={item}>
-                  <a href="#" className="transition-colors hover:text-[#632EE3]">{item}</a>
+                  <a
+                    href="#"
+                    className="transition-colors hover:text-[#632EE3]"
+                  >
+                    {item}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -93,9 +99,24 @@ function Navbar({ onNewTicket }) {
         <div className="flex items-center gap-2 lg:hidden">
           <ThemeToggle />
           <div className="dropdown dropdown-end">
-            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.7} stroke="currentColor" className="h-6 w-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5m-16.5 5.25h16.5m-16.5 5.25h16.5" />
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.7}
+                stroke="currentColor"
+                className="h-6 w-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3.75 6.75h16.5m-16.5 5.25h16.5m-16.5 5.25h16.5"
+                />
               </svg>
             </div>
             <ul
@@ -108,7 +129,9 @@ function Navbar({ onNewTicket }) {
               }}
             >
               {navItems.map((item) => (
-                <li key={item}><a href="#">{item}</a></li>
+                <li key={item}>
+                  <a href="#">{item}</a>
+                </li>
               ))}
               <li className="mt-1">
                 <button

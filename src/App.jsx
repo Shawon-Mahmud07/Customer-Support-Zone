@@ -21,7 +21,12 @@ const PRIORITY_ORDER = { High: 0, Medium: 1, Low: 2 };
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
-    return localStorage.getItem("csz_darkMode") === "true";
+    const saved = localStorage.getItem("csz_darkMode") === "true";
+    document.documentElement.setAttribute(
+      "data-theme",
+      saved ? "dark" : "light",
+    );
+    return saved;
   });
   const [tickets, setTickets] = useState(() =>
     loadState("csz_tickets", initialTickets),
@@ -56,7 +61,7 @@ function App() {
   useEffect(() => {
     localStorage.setItem("csz_resolvedTasks", JSON.stringify(resolvedTasks));
   }, [resolvedTasks]);
-  
+
 // Persist dark mode preference
   useEffect(() => {
     localStorage.setItem("csz_darkMode", darkMode);
@@ -188,7 +193,11 @@ function App() {
 
   return (
     <div className="min-h-screen bg-base-200">
-      <Navbar onNewTicket={() => setShowModal(true)} />
+      <Navbar
+        onNewTicket={() => setShowModal(true)}
+        darkMode={darkMode}
+        onToggleDark={() => setDarkMode((prev) => !prev)}
+      />
       <Banner
         totalCount={totalCount}
         inProgressCount={inProgressCount}
