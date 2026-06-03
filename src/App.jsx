@@ -20,6 +20,9 @@ function loadState(key, fallback) {
 const PRIORITY_ORDER = { High: 0, Medium: 1, Low: 2 };
 
 function App() {
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem("csz_darkMode") === "true";
+  });
   const [tickets, setTickets] = useState(() =>
     loadState("csz_tickets", initialTickets),
   );
@@ -53,6 +56,15 @@ function App() {
   useEffect(() => {
     localStorage.setItem("csz_resolvedTasks", JSON.stringify(resolvedTasks));
   }, [resolvedTasks]);
+  
+// Persist dark mode preference
+  useEffect(() => {
+    localStorage.setItem("csz_darkMode", darkMode);
+    document.documentElement.setAttribute(
+      "data-theme",
+      darkMode ? "dark" : "light",
+    );
+  }, [darkMode]);
   // Persist ticket notes
   useEffect(() => {
     localStorage.setItem("csz_ticketNotes", JSON.stringify(ticketNotes));
