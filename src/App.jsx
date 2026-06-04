@@ -62,7 +62,7 @@ function App() {
     localStorage.setItem("csz_resolvedTasks", JSON.stringify(resolvedTasks));
   }, [resolvedTasks]);
 
-// Persist dark mode preference
+  // Persist dark mode preference
   useEffect(() => {
     localStorage.setItem("csz_darkMode", darkMode);
     document.documentElement.setAttribute(
@@ -119,7 +119,7 @@ function App() {
     setShowModal(false);
     toast.success("New ticket created!");
   }
-// Add to Task Status
+  // Add to Task Status
   function handleAddToTask(ticketId) {
     const selected = tickets.find((ticket) => ticket.id === ticketId);
     if (!selected) return;
@@ -138,7 +138,7 @@ function App() {
     );
     toast.success("Ticket added to Task Status.");
   }
-// Delete ticket
+  // Delete ticket
   function handleDeleteTicket(ticketId) {
     setTickets((prev) => prev.filter((ticket) => ticket.id !== ticketId));
     setTaskStatus((prev) => prev.filter((ticket) => ticket.id !== ticketId));
@@ -191,12 +191,58 @@ function App() {
     }));
   }
 
+  // Export all tickets to CSV
+  function handleExportCSV() {
+    const allTickets = [...tickets, ...taskStatus, ...resolvedTasks];
+
+    if (allTickets.length === 0) {
+      toast.info("No tickets to export.");
+      return;
+    }
+
+    const headers = [
+      "ID",
+      "Title",
+      "Description",
+      "Customer",
+      "Priority",
+      "Status",
+      "Created At",
+    ];
+
+    const rows = allTickets.map((t) => [
+      t.id,
+      `"${t.title.replace(/"/g, '""')}"`,
+      `"${t.description.replace(/"/g, '""')}"`,
+      `"${t.customer.replace(/"/g, '""')}"`,
+      t.priority,
+      t.status,
+      t.createdAt,
+    ]);
+
+    const csvContent = [
+      headers.join(","),
+      ...rows.map((r) => r.join(",")),
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `tickets_${new Date().toISOString().slice(0, 10)}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+
+    toast.success(`${allTickets.length} tickets exported!`);
+  }
+
   return (
     <div className="min-h-screen bg-base-200">
       <Navbar
         onNewTicket={() => setShowModal(true)}
         darkMode={darkMode}
         onToggleDark={() => setDarkMode((prev) => !prev)}
+        onExportCSV={handleExportCSV}
       />
       <Banner
         totalCount={totalCount}
