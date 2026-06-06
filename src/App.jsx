@@ -237,7 +237,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-base-200">
+    <div className="min-h-screen" style={{ backgroundColor: "var(--bg-base)" }}>
       <Navbar
         onNewTicket={() => setShowModal(true)}
         darkMode={darkMode}

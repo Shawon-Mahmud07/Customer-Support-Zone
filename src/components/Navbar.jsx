@@ -3,8 +3,8 @@ function Navbar({ onNewTicket, darkMode, onToggleDark, onExportCSV }) {
     <header
       className="sticky top-0 z-40 border-b shadow-sm"
       style={{
-        backgroundColor: "var(--bg-card)",
-        borderColor: "var(--border-color)",
+        backgroundColor: "var(--navbar-bg)",
+        borderColor: "var(--navbar-border)",
       }}
     >
       <div className="mx-auto flex w-full max-w-370 items-center justify-between px-5 py-3 sm:px-8">
