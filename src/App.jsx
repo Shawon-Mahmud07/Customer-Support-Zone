@@ -249,17 +249,9 @@ function App() {
         inProgressCount={inProgressCount}
         resolvedCount={resolvedCount}
         openCount={tickets.filter((t) => t.status === "Open").length}
-        highCount={
-          [...tickets, ...taskStatus].filter((t) => t.priority === "High")
-            .length
-        }
-        mediumCount={
-          [...tickets, ...taskStatus].filter((t) => t.priority === "Medium")
-            .length
-        }
-        lowCount={
-          [...tickets, ...taskStatus].filter((t) => t.priority === "Low").length
-        }
+        highCount={tickets.filter((t) => t.priority === "High").length}
+        mediumCount={tickets.filter((t) => t.priority === "Medium").length}
+        lowCount={tickets.filter((t) => t.priority === "Low").length}
       />
       <MainSection
         onEditTicket={handleEditTicket}
