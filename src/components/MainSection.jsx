@@ -336,10 +336,13 @@ function MainSection({
       <div className="flex flex-col-reverse gap-6 xl:grid xl:grid-cols-[2fr_1fr] xl:gap-8">
         <div>
           <h2
-            className="text-[clamp(1.9rem,0.8vw+1.45rem,2.8rem)] font-semibold"
+            className="text-[clamp(1.9rem,0.8vw+1.45rem,2.8rem)] font-semibold flex items-center gap-3"
             style={{ color: "var(--text-primary)" }}
           >
             Customer Tickets
+            <span className="inline-flex items-center justify-center rounded-full bg-[#632EE3] px-2.5 py-0.5 text-sm font-semibold text-white min-w-7">
+              {tickets.length}
+            </span>
           </h2>
 
           <FilterBar
@@ -405,10 +408,13 @@ function MainSection({
 
         <aside className="rounded-lg p-2 xl:pt-2">
           <h3
-            className="text-[clamp(1.7rem,0.6vw+1.35rem,2.2rem)] font-semibold"
+            className="text-[clamp(1.7rem,0.6vw+1.35rem,2.2rem)] font-semibold flex items-center gap-3"
             style={{ color: "var(--text-primary)" }}
           >
             Task Status
+            <span className="inline-flex items-center justify-center rounded-full bg-[#F4E18D] px-2.5 py-0.5 text-sm font-semibold text-[#9A7400] min-w-7">
+              {taskStatus.length}
+            </span>
           </h3>
 
           {taskStatus.length === 0 ? (
@@ -447,10 +453,13 @@ function MainSection({
           )}
 
           <h3
-            className="mt-10 text-[clamp(1.7rem,0.6vw+1.35rem,2.2rem)] font-semibold"
+            className="mt-10 text-[clamp(1.7rem,0.6vw+1.35rem,2.2rem)] font-semibold flex items-center gap-3"
             style={{ color: "var(--text-primary)" }}
           >
             Resolved Task
+            <span className="inline-flex items-center justify-center rounded-full bg-[#CDECF9] px-2.5 py-0.5 text-sm font-semibold text-[#0C6280] min-w-7">
+              {resolvedTasks.length}
+            </span>
           </h3>
           {resolvedTasks.length === 0 ? (
             <p
