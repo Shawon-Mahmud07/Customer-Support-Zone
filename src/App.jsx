@@ -75,6 +75,37 @@ function App() {
     localStorage.setItem("csz_ticketNotes", JSON.stringify(ticketNotes));
   }, [ticketNotes]);
 
+  // Keyboard shortcuts
+  useEffect(() => {
+    function handleKeyDown(e) {
+      // Don't trigger shortcuts if user is typing in an input/textarea/select
+      const tag = document.activeElement?.tagName;
+      const isTyping =
+        tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT";
+
+      if (isTyping) return;
+// N — New ticket modal
+      if (e.key === "n" || e.key === "N") {
+        e.preventDefault();
+        setShowModal(true);
+      }
+// Esc — Close modal
+      
+      if (e.key === "Escape") {
+        setShowModal(false);
+      }
+// S — Focus search input
+      // D — Dark mode toggle
+      if (e.key === "d" || e.key === "D") {
+        e.preventDefault();
+        setDarkMode((prev) => !prev);
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   // Filtered + Sorted tickets
   const filteredTickets = useMemo(() => {
     let result = tickets.filter((ticket) => {
