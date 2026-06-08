@@ -84,17 +84,17 @@ function App() {
         tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT";
 
       if (isTyping) return;
-// N — New ticket modal
+      // N — New ticket modal
       if (e.key === "n" || e.key === "N") {
         e.preventDefault();
         setShowModal(true);
       }
-// Esc — Close modal
-      
+      // Esc — Close modal
+
       if (e.key === "Escape") {
         setShowModal(false);
       }
-// S — Focus search input
+      // S — Focus search input
       // D — Dark mode toggle
       if (e.key === "d" || e.key === "D") {
         e.preventDefault();
