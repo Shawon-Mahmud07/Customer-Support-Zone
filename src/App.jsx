@@ -89,12 +89,12 @@ function App() {
         e.preventDefault();
         setShowModal(true);
       }
-      // Esc — Close modal
 
+      // Esc — Close modal
       if (e.key === "Escape") {
         setShowModal(false);
       }
-      // S — Focus search input
+      
       // D — Dark mode toggle
       if (e.key === "d" || e.key === "D") {
         e.preventDefault();

@@ -39,6 +39,76 @@ function Navbar({ onNewTicket, darkMode, onToggleDark, onExportCSV }) {
 
         {/* Right side */}
         <div className="flex items-center gap-2">
+          
+          {/* Keyboard Shortcuts hint */}
+          <div className="relative group">
+            <button
+              className="flex h-9 w-9 items-center justify-center rounded-lg border transition hover:scale-105"
+              style={{
+                backgroundColor: "var(--filter-bg)",
+                borderColor: "var(--border-color)",
+                color: "var(--text-secondary)",
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                className="h-4 w-4"
+              >
+                <rect x="2" y="6" width="20" height="13" rx="2" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M6 14h.01M18 14h.01M10 14h4"
+                />
+              </svg>
+            </button>
+
+            {/* Tooltip */}
+            <div
+              className="absolute right-0 top-11 z-50 hidden w-48 rounded-xl border p-3 shadow-xl group-hover:block"
+              style={{
+                backgroundColor: "var(--bg-card)",
+                borderColor: "var(--border-color)",
+              }}
+            >
+              <p
+                className="mb-2 text-xs font-bold uppercase tracking-wider"
+                style={{ color: "var(--text-muted)" }}
+              >
+                Shortcuts
+              </p>
+              <div className="space-y-1.5">
+                {[
+                  { key: "N", label: "New Ticket" },
+                  { key: "D", label: "Toggle Dark" },
+                  { key: "Esc", label: "Close Modal" },
+                ].map(({ key, label }) => (
+                  <div key={key} className="flex items-center justify-between">
+                    <span
+                      className="text-xs"
+                      style={{ color: "var(--text-secondary)" }}
+                    >
+                      {label}
+                    </span>
+                    <kbd
+                      className="rounded border px-1.5 py-0.5 text-xs font-semibold"
+                      style={{
+                        backgroundColor: "var(--bg-base)",
+                        borderColor: "var(--border-color)",
+                        color: "var(--text-primary)",
+                      }}
+                    >
+                      {key}
+                    </kbd>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
           {/* Export CSV Button */}
           <button
             onClick={onExportCSV}
