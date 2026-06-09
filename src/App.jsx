@@ -7,6 +7,7 @@ import MainSection from "./components/MainSection";
 import Footer from "./components/Footer";
 import NewTicketModal from "./components/NewTicketModal";
 import initialTickets from "./data/tickets.json";
+import AboutUs from "./components/AboutUs";
 
 function loadState(key, fallback) {
   try {
@@ -41,6 +42,8 @@ function App() {
     loadState("csz_ticketNotes", {}),
   );
   const [showModal, setShowModal] = useState(false);
+  // About Us state
+  const [showAboutUs, setShowAboutUs] = useState(false);
 
   // Search & Filter state
   const [search, setSearch] = useState("");
@@ -270,7 +273,10 @@ function App() {
 
     toast.success(`${allTickets.length} tickets exported!`);
   }
-
+  // Show About Us page
+ if (showAboutUs) {
+   return <AboutUs onBack={() => setShowAboutUs(false)} />;
+ }
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--bg-base)" }}>
       <Navbar
@@ -308,7 +314,7 @@ function App() {
         onAddNote={handleAddNote}
         onDeleteNote={handleDeleteNote}
       />
-      <Footer />
+      <Footer onAboutUs={() => setShowAboutUs(true)} />
       <ToastContainer
         position="top-right"
         autoClose={1800}
