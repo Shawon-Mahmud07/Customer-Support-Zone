@@ -181,7 +181,11 @@ function App() {
     const selected = taskStatus.find((ticket) => ticket.id === ticketId);
     if (!selected) return;
 
-    const completed = { ...selected, status: "Resolved" };
+    const completed = {
+      ...selected,
+      status: "Resolved",
+      resolvedAt: new Date().toLocaleString("en-US"),
+    };
     setTaskStatus((prev) => prev.filter((ticket) => ticket.id !== ticketId));
     setResolvedTasks((prev) => [completed, ...prev]);
     setTickets((prev) => prev.filter((ticket) => ticket.id !== ticketId));

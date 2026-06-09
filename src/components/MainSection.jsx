@@ -314,7 +314,6 @@ function MainSection({
   taskStatus,
   resolvedTasks,
   onAddToTask,
-  onCompleteTask,
   onDeleteTicket,
   search,
   onSearchChange,
@@ -327,9 +326,11 @@ function MainSection({
   onEditTicket,
   ticketNotes,
   onAddNote,
+  onCompleteTask,
   onDeleteNote,
 }) {
   const [selectedTicket, setSelectedTicket] = useState(null);
+  const [expandedResolved, setExpandedResolved] = useState(null);
 
   return (
     <section className="mx-auto w-full max-w-370 px-5 pb-10 pt-4 sm:px-8 sm:pb-14">
@@ -406,51 +407,52 @@ function MainSection({
           )}
         </div>
 
-        <aside className="rounded-lg p-2 xl:pt-2">
-          <h3
-            className="text-[clamp(1.7rem,0.6vw+1.35rem,2.2rem)] font-semibold flex items-center gap-3"
+          <aside className="rounded-lg p-2 xl:pt-2">
+  {/* Task Status */}
+  <h3
+    className="text-[clamp(1.7rem,0.6vw+1.35rem,2.2rem)] font-semibold flex items-center gap-3"
+    style={{ color: "var(--text-primary)" }}
+  >
+    Task Status
+    <span className="inline-flex items-center justify-center rounded-full bg-[#F4E18D] px-2.5 py-0.5 text-sm font-semibold text-[#9A7400] min-w-7">
+      {taskStatus.length}
+    </span>
+  </h3>
+
+  {taskStatus.length === 0 ? (
+    <p
+      className="mt-1 text-[clamp(1rem,0.25vw+0.9rem,1.15rem)]"
+      style={{ color: "var(--text-secondary)" }}
+    >
+      Select a ticket to add to Task Status
+    </p>
+  ) : (
+    <div className="mt-4 space-y-3">
+      {taskStatus.map((ticket) => (
+        <article
+          key={ticket.id}
+          className="rounded-lg border p-4 shadow-[0_5px_16px_rgba(30,41,59,0.08)]"
+          style={{
+            backgroundColor: "var(--bg-card)",
+            borderColor: "var(--border-color)",
+          }}
+        >
+          <h4
+            className="text-[clamp(1.12rem,0.3vw+0.98rem,1.3rem)] font-semibold"
             style={{ color: "var(--text-primary)" }}
           >
-            Task Status
-            <span className="inline-flex items-center justify-center rounded-full bg-[#F4E18D] px-2.5 py-0.5 text-sm font-semibold text-[#9A7400] min-w-7">
-              {taskStatus.length}
-            </span>
-          </h3>
-
-          {taskStatus.length === 0 ? (
-            <p
-              className="mt-1 text-[clamp(1rem,0.25vw+0.9rem,1.15rem)]"
-              style={{ color: "var(--text-secondary)" }}
-            >
-              Select a ticket to add to Task Status
-            </p>
-          ) : (
-            <div className="mt-4 space-y-3">
-              {taskStatus.map((ticket) => (
-                <article
-                  key={ticket.id}
-                  className="rounded-lg border p-4 shadow-[0_5px_16px_rgba(30,41,59,0.08)]"
-                  style={{
-                    backgroundColor: "var(--bg-card)",
-                    borderColor: "var(--border-color)",
-                  }}
-                >
-                  <h4
-                    className="text-[clamp(1.12rem,0.3vw+0.98rem,1.3rem)] font-semibold"
-                    style={{ color: "var(--text-primary)" }}
-                  >
-                    {ticket.title}
-                  </h4>
-                  <button
-                    onClick={() => onCompleteTask(ticket.id)}
-                    className="mt-3 w-full rounded-md bg-[#08A63E] py-2.5 text-[clamp(1rem,0.25vw+0.88rem,1.1rem)] font-semibold text-white transition hover:brightness-95"
-                  >
-                    Complete
-                  </button>
-                </article>
-              ))}
-            </div>
-          )}
+            {ticket.title}
+          </h4>
+          <button
+            onClick={() => onCompleteTask(ticket.id)}
+            className="mt-3 w-full rounded-md bg-[#08A63E] py-2.5 text-[clamp(1rem,0.25vw+0.88rem,1.1rem)] font-semibold text-white transition hover:brightness-95"
+          >
+            Complete
+          </button>
+        </article>
+      ))}
+    </div>
+  )}
 
           <h3
             className="mt-10 text-[clamp(1.7rem,0.6vw+1.35rem,2.2rem)] font-semibold flex items-center gap-3"
@@ -461,6 +463,7 @@ function MainSection({
               {resolvedTasks.length}
             </span>
           </h3>
+
           {resolvedTasks.length === 0 ? (
             <p
               className="mt-1 text-[clamp(1rem,0.25vw+0.9rem,1.15rem)]"
@@ -469,19 +472,158 @@ function MainSection({
               No resolved tasks yet.
             </p>
           ) : (
-            <ul className="mt-3 space-y-2 text-[clamp(1rem,0.25vw+0.9rem,1.15rem)]">
-              {resolvedTasks.map((ticket) => (
-                <li
-                  key={ticket.id}
-                  className="rounded-md px-3 py-2 shadow-[0_3px_10px_rgba(30,41,59,0.08)]"
-                  style={{
-                    backgroundColor: "var(--bg-card)",
-                    color: "var(--text-primary)",
-                  }}
-                >
-                  {ticket.title}
-                </li>
-              ))}
+            <ul className="mt-3 space-y-2">
+              {resolvedTasks.map((ticket) => {
+                const isExpanded = expandedResolved === ticket.id;
+                const priorityColors = {
+                  High: { color: "#EF4444", bg: "#FEF2F2" },
+                  Medium: { color: "#F59E0B", bg: "#FFFBEB" },
+                  Low: { color: "#16A34A", bg: "#F0FDF4" },
+                };
+                const p = priorityColors[ticket.priority];
+
+                return (
+                  <li
+                    key={ticket.id}
+                    className="overflow-hidden rounded-lg border shadow-[0_3px_10px_rgba(30,41,59,0.08)] transition-all"
+                    style={{
+                      backgroundColor: "var(--bg-card)",
+                      borderColor: "var(--border-color)",
+                    }}
+                  >
+                    {/* Row — always visible */}
+                    <button
+                      onClick={() =>
+                        setExpandedResolved(isExpanded ? null : ticket.id)
+                      }
+                      className="flex w-full items-center justify-between gap-2 px-3 py-2.5 text-left transition hover:opacity-80"
+                    >
+                      <div className="flex items-center gap-2 min-w-0">
+                        {/* Green check */}
+                        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#A6E9BC]">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="#087A2A"
+                            strokeWidth={2.5}
+                            className="h-3 w-3"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M4.5 12.75l6 6 9-13.5"
+                            />
+                          </svg>
+                        </span>
+                        <span
+                          className="truncate text-sm font-medium"
+                          style={{ color: "var(--text-primary)" }}
+                        >
+                          {ticket.title}
+                        </span>
+                      </div>
+
+                      {/* Chevron */}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                        className={`h-4 w-4 shrink-0 transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`}
+                        style={{ color: "var(--text-muted)" }}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="m6 9 6 6 6-6"
+                        />
+                      </svg>
+                    </button>
+
+                    {/* Expanded detail */}
+                    {isExpanded && (
+                      <div
+                        className="border-t px-3 py-3 space-y-2"
+                        style={{
+                          borderColor: "var(--border-color)",
+                          backgroundColor: "var(--bg-base)",
+                        }}
+                      >
+                        {/* Customer */}
+                        <div className="flex items-center gap-2">
+                          <div
+                            className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
+                            style={{ backgroundColor: "#632EE3" }}
+                          >
+                            {ticket.customer?.charAt(0).toUpperCase()}
+                          </div>
+                          <span
+                            className="text-xs"
+                            style={{ color: "var(--text-secondary)" }}
+                          >
+                            {ticket.customer}
+                          </span>
+                        </div>
+
+                        {/* Priority + Created */}
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span
+                            className="rounded-full px-2 py-0.5 text-xs font-semibold"
+                            style={{ color: p.color, backgroundColor: p.bg }}
+                          >
+                            {ticket.priority} Priority
+                          </span>
+                          <span
+                            className="text-xs"
+                            style={{ color: "var(--text-muted)" }}
+                          >
+                            Created: {ticket.createdAt}
+                          </span>
+                        </div>
+
+                        {/* Resolved At */}
+                        <div
+                          className="flex items-center gap-1.5 rounded-md px-2 py-1.5"
+                          style={{ backgroundColor: "#A6E9BC22" }}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="#087A2A"
+                            strokeWidth={2}
+                            className="h-3.5 w-3.5 shrink-0"
+                          >
+                            <circle cx="12" cy="12" r="10" />
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M12 6v6l4 2"
+                            />
+                          </svg>
+                          <span className="text-xs font-medium text-[#087A2A]">
+                            Resolved: {ticket.resolvedAt ?? "—"}
+                          </span>
+                        </div>
+
+                        {/* Description */}
+                        {ticket.description && (
+                          <p
+                            className="text-xs leading-relaxed"
+                            style={{ color: "var(--text-muted)" }}
+                          >
+                            {ticket.description.length > 100
+                              ? ticket.description.slice(0, 100) + "..."
+                              : ticket.description}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           )}
         </aside>
