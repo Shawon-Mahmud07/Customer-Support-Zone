@@ -15,6 +15,7 @@
   --filter-hover: #f1f5f9;
   --navbar-bg: #f3f3f3;
   --navbar-border: #e4e6eb;
+  --accent: #632EE3;
 }
 
 [data-theme="dark"] {
@@ -31,6 +32,7 @@
   --filter-hover: #334155;
   --navbar-bg: #1e293b;
   --navbar-border: #334155;
+  --accent: #9F62F2;
 }
 
 body {
