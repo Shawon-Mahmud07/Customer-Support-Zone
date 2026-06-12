@@ -96,7 +96,7 @@ function App() {
 
       if (isTyping) return;
       // N — New ticket modal
-      if (e.key === "n" || e.key === "N") {
+      if ((e.key === "n" || e.key === "N") && !showModal) {
         e.preventDefault();
         setShowModal(true);
       }
