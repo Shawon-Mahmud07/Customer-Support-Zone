@@ -18,6 +18,8 @@ function TicketDetailModal({
   ticket,
   notes = [],
   onAddNote,
+  agents = [],
+  onAssignTicket,
   onDeleteNote,
   onClose,
   onAddToTask,
@@ -48,7 +50,7 @@ function TicketDetailModal({
     setForm((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: undefined }));
   }
-// Validation
+  // Validation
   function validate() {
     const e = {};
     if (!form.title.trim()) e.title = "Title is required.";
@@ -56,7 +58,7 @@ function TicketDetailModal({
     if (!form.customer.trim()) e.customer = "Customer name is required.";
     return e;
   }
-// Note handlers
+  // Note handlers
   function handleNoteSubmit() {
     if (!noteInput.trim()) return;
     onAddNote(noteInput);
@@ -375,6 +377,116 @@ function TicketDetailModal({
                     </span>
                   </div>
                 </div>
+              </div>
+              {/* ── ASSIGN SECTION ── */}
+              <div>
+                <p
+                  className="mb-2 text-xs font-semibold uppercase tracking-wider"
+                  style={{ color: "var(--text-muted)" }}
+                >
+                  Assigned To
+                </p>
+
+                {/* Current assignee */}
+                {ticket.assignedTo ? (
+                  <div
+                    className="mb-2 flex items-center justify-between rounded-lg border px-3 py-2"
+                    style={{
+                      borderColor: "var(--border-color)",
+                      backgroundColor: "var(--bg-base)",
+                    }}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <div
+                        className="flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold text-white"
+                        style={{ backgroundColor: "#632EE3" }}
+                      >
+                        {ticket.assignedTo.initials}
+                      </div>
+                      <div>
+                        <p
+                          className="text-sm font-medium"
+                          style={{ color: "var(--text-primary)" }}
+                        >
+                          {ticket.assignedTo.name}
+                        </p>
+                        <p
+                          className="text-xs"
+                          style={{ color: "var(--text-muted)" }}
+                        >
+                          Assigned agent
+                        </p>
+                      </div>
+                    </div>
+                    {!isResolved && (
+                      <button
+                        onClick={() => onAssignTicket(null)}
+                        className="rounded-md px-2 py-1 text-xs font-medium text-red-400 transition hover:bg-red-50"
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </div>
+                ) : (
+                  <p
+                    className="mb-2 text-xs italic"
+                    style={{ color: "var(--text-muted)" }}
+                  >
+                    No agent assigned yet.
+                  </p>
+                )}
+
+                {/* Agent picker — hide if resolved */}
+                {!isResolved && (
+                  <div className="flex flex-wrap gap-2">
+                    {agents.map((agent) => {
+                      const isAssigned = ticket.assignedTo?.id === agent.id;
+                      return (
+                        <button
+                          key={agent.id}
+                          onClick={() =>
+                            onAssignTicket(isAssigned ? null : agent)
+                          }
+                          title={
+                            isAssigned
+                              ? `Unassign ${agent.name}`
+                              : `Assign to ${agent.name}`
+                          }
+                          className="flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium transition hover:scale-105"
+                          style={
+                            isAssigned
+                              ? {
+                                  backgroundColor: "#632EE3",
+                                  borderColor: "#632EE3",
+                                  color: "#fff",
+                                }
+                              : {
+                                  borderColor: "var(--border-color)",
+                                  backgroundColor: "var(--bg-base)",
+                                  color: "var(--text-secondary)",
+                                }
+                          }
+                        >
+                          <span
+                            className="flex h-5 w-5 items-center justify-center rounded-full text-[0.6rem] font-bold"
+                            style={
+                              isAssigned
+                                ? {
+                                    backgroundColor: "rgba(255,255,255,0.25)",
+                                    color: "#fff",
+                                  }
+                                : { backgroundColor: "#632EE3", color: "#fff" }
+                            }
+                          >
+                            {agent.initials}
+                          </span>
+                          {agent.name.split(" ")[0]}
+                          {isAssigned && " ✓"}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
               {/* ── NOTES SECTION ── */}
               {!isEditing && (

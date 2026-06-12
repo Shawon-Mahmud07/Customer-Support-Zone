@@ -301,6 +301,20 @@ function TicketCard({ ticket, onOpenDetail }) {
         </span>
       </div>
 
+      {/* Assigned agent */}
+      {ticket.assignedTo && (
+        <div className="mt-2 flex items-center gap-1.5">
+          <div
+            className="flex h-5 w-5 items-center justify-center rounded-full text-[0.6rem] font-bold text-white"
+            style={{ backgroundColor: "#632EE3" }}
+          >
+            {ticket.assignedTo.initials}
+          </div>
+          <span className="text-xs" style={{ color: "var(--text-muted)" }}>
+            {ticket.assignedTo.name}
+          </span>
+        </div>
+      )}
       {/* Click hint */}
       <p className="mt-3 text-xs" style={{ color: "var(--text-muted)" }}>
         Click to view details
@@ -328,6 +342,8 @@ function MainSection({
   onAddNote,
   onCompleteTask,
   onDeleteNote,
+  agents,
+  onAssignTicket,
 }) {
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [expandedResolved, setExpandedResolved] = useState(null);
@@ -407,52 +423,52 @@ function MainSection({
           )}
         </div>
 
-          <aside className="rounded-lg p-2 xl:pt-2">
-  {/* Task Status */}
-  <h3
-    className="text-[clamp(1.7rem,0.6vw+1.35rem,2.2rem)] font-semibold flex items-center gap-3"
-    style={{ color: "var(--text-primary)" }}
-  >
-    Task Status
-    <span className="inline-flex items-center justify-center rounded-full bg-[#F4E18D] px-2.5 py-0.5 text-sm font-semibold text-[#9A7400] min-w-7">
-      {taskStatus.length}
-    </span>
-  </h3>
-
-  {taskStatus.length === 0 ? (
-    <p
-      className="mt-1 text-[clamp(1rem,0.25vw+0.9rem,1.15rem)]"
-      style={{ color: "var(--text-secondary)" }}
-    >
-      Select a ticket to add to Task Status
-    </p>
-  ) : (
-    <div className="mt-4 space-y-3">
-      {taskStatus.map((ticket) => (
-        <article
-          key={ticket.id}
-          className="rounded-lg border p-4 shadow-[0_5px_16px_rgba(30,41,59,0.08)]"
-          style={{
-            backgroundColor: "var(--bg-card)",
-            borderColor: "var(--border-color)",
-          }}
-        >
-          <h4
-            className="text-[clamp(1.12rem,0.3vw+0.98rem,1.3rem)] font-semibold"
+        <aside className="rounded-lg p-2 xl:pt-2">
+          {/* Task Status */}
+          <h3
+            className="text-[clamp(1.7rem,0.6vw+1.35rem,2.2rem)] font-semibold flex items-center gap-3"
             style={{ color: "var(--text-primary)" }}
           >
-            {ticket.title}
-          </h4>
-          <button
-            onClick={() => onCompleteTask(ticket.id)}
-            className="mt-3 w-full rounded-md bg-[#08A63E] py-2.5 text-[clamp(1rem,0.25vw+0.88rem,1.1rem)] font-semibold text-white transition hover:brightness-95"
-          >
-            Complete
-          </button>
-        </article>
-      ))}
-    </div>
-  )}
+            Task Status
+            <span className="inline-flex items-center justify-center rounded-full bg-[#F4E18D] px-2.5 py-0.5 text-sm font-semibold text-[#9A7400] min-w-7">
+              {taskStatus.length}
+            </span>
+          </h3>
+
+          {taskStatus.length === 0 ? (
+            <p
+              className="mt-1 text-[clamp(1rem,0.25vw+0.9rem,1.15rem)]"
+              style={{ color: "var(--text-secondary)" }}
+            >
+              Select a ticket to add to Task Status
+            </p>
+          ) : (
+            <div className="mt-4 space-y-3">
+              {taskStatus.map((ticket) => (
+                <article
+                  key={ticket.id}
+                  className="rounded-lg border p-4 shadow-[0_5px_16px_rgba(30,41,59,0.08)]"
+                  style={{
+                    backgroundColor: "var(--bg-card)",
+                    borderColor: "var(--border-color)",
+                  }}
+                >
+                  <h4
+                    className="text-[clamp(1.12rem,0.3vw+0.98rem,1.3rem)] font-semibold"
+                    style={{ color: "var(--text-primary)" }}
+                  >
+                    {ticket.title}
+                  </h4>
+                  <button
+                    onClick={() => onCompleteTask(ticket.id)}
+                    className="mt-3 w-full rounded-md bg-[#08A63E] py-2.5 text-[clamp(1rem,0.25vw+0.88rem,1.1rem)] font-semibold text-white transition hover:brightness-95"
+                  >
+                    Complete
+                  </button>
+                </article>
+              ))}
+            </div>
+          )}
 
           <h3
             className="mt-10 text-[clamp(1.7rem,0.6vw+1.35rem,2.2rem)] font-semibold flex items-center gap-3"
@@ -634,6 +650,8 @@ function MainSection({
         <TicketDetailModal
           ticket={selectedTicket}
           notes={ticketNotes[selectedTicket?.id] || []}
+          agents={agents}
+          onAssignTicket={(agent) => onAssignTicket(selectedTicket.id, agent)}
           onAddNote={(text) => onAddNote(selectedTicket.id, text)}
           onDeleteNote={(noteId) => onDeleteNote(selectedTicket.id, noteId)}
           onClose={() => setSelectedTicket(null)}

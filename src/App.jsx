@@ -41,6 +41,14 @@ function App() {
   const [ticketNotes, setTicketNotes] = useState(() =>
     loadState("csz_ticketNotes", {}),
   );
+  // Team members for About Us page
+  const [agents] = useState([
+    { id: 1, name: "Shawon Mahmud", initials: "SM" },
+    { id: 2, name: "Alex Rahman", initials: "AR" },
+    { id: 3, name: "Sara Khan", initials: "SK" },
+    { id: 4, name: "Rafi Ahmed", initials: "RA" },
+    { id: 5, name: "Nadia Islam", initials: "NI" },
+  ]);
   const [showModal, setShowModal] = useState(false);
   // About Us state
   const [showAboutUs, setShowAboutUs] = useState(false);
@@ -97,7 +105,7 @@ function App() {
       if (e.key === "Escape") {
         setShowModal(false);
       }
-      
+
       // D — Dark mode toggle
       if (e.key === "d" || e.key === "D") {
         e.preventDefault();
@@ -229,6 +237,21 @@ function App() {
     }));
   }
 
+  // Assign ticket to agent
+  function handleAssignTicket(ticketId, agent) {
+    setTickets((prev) =>
+      prev.map((t) => (t.id === ticketId ? { ...t, assignedTo: agent } : t)),
+    );
+    setTaskStatus((prev) =>
+      prev.map((t) => (t.id === ticketId ? { ...t, assignedTo: agent } : t)),
+    );
+    if (agent) {
+      toast.success(`Ticket assigned to ${agent.name}!`);
+    } else {
+      toast.info("Ticket unassigned.");
+    }
+  }
+
   // Export all tickets to CSV
   function handleExportCSV() {
     const allTickets = [...tickets, ...taskStatus, ...resolvedTasks];
@@ -274,9 +297,9 @@ function App() {
     toast.success(`${allTickets.length} tickets exported!`);
   }
   // Show About Us page
- if (showAboutUs) {
-   return <AboutUs onBack={() => setShowAboutUs(false)} />;
- }
+  if (showAboutUs) {
+    return <AboutUs onBack={() => setShowAboutUs(false)} />;
+  }
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--bg-base)" }}>
       <Navbar
@@ -313,6 +336,8 @@ function App() {
         ticketNotes={ticketNotes}
         onAddNote={handleAddNote}
         onDeleteNote={handleDeleteNote}
+        agents={agents}
+        onAssignTicket={handleAssignTicket}
       />
       <Footer onAboutUs={() => setShowAboutUs(true)} />
       <ToastContainer
