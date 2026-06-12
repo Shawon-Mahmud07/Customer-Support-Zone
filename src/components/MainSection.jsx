@@ -14,7 +14,7 @@ const priorityStyles = {
 };
 
 const PRIORITIES = ["All", "High", "Medium", "Low"];
-const STATUSES = ["All", "Open", "In-Progress"];
+const STATUSES = ["All", "Open", "In-Progress", "Resolved"];
 
 const SORT_OPTIONS = [
   { value: "newest", label: "Newest" },

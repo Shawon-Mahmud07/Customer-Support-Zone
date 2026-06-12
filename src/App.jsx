@@ -143,7 +143,7 @@ function App() {
     return result;
   }, [tickets, search, filterPriority, filterStatus, sortBy]);
 
-  const totalCount = tickets.length + taskStatus.length + resolvedTasks.length;
+  const totalCount = tickets.length + resolvedTasks.length;
   const inProgressCount = taskStatus.length;
   const resolvedCount = resolvedTasks.length;
 
