@@ -52,6 +52,18 @@ A clean, responsive **Customer Support Ticket Management System** built with Rea
 - **Toast Notifications** — Instant feedback on every action via React-Toastify
 - **Fully Responsive** — Works on mobile, tablet, and desktop
 
+### 🔗 Footer Pages
+
+- **About Us** — Team info, company stats, and background
+- **Our Mission** — Core values and product philosophy
+- **Contact Sales** — Contact details and reasons to choose CS
+- **Products & Services** — Full feature breakdown with descriptions
+- **Customer Stories** — Real customer testimonials
+- **Download Apps** — Web, iOS, and Android availability
+- **Privacy Policy** — Data handling, storage, and cookie policy
+- **Terms & Conditions** — Usage terms and legal information
+- **Join Us** — Open roles and career opportunities
+
 ### 💾 Data Persistence
 
 - All tickets, task status, resolved tasks, notes, and theme saved in **localStorage**
