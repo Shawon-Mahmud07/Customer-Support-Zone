@@ -144,7 +144,7 @@ function DashboardStats({
         </div>
 
         {/* Mini status badges */}
-        <div className="mt-4 flex gap-2">
+        <div className="mt-4 flex flex-wrap gap-2">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-[#A6E9BC] px-3 py-1 text-xs font-semibold text-[#087A2A]">
             <span className="h-1.5 w-1.5 rounded-full bg-current" />
             Open: {openCount}

@@ -149,7 +149,7 @@ function FilterBar({
       <div className="flex flex-wrap items-center gap-3">
         {/* Priority */}
         <div
-          className="flex items-center gap-1.5 rounded-lg border px-1 py-1"
+          className="flex flex-wrap items-center gap-1 rounded-lg border px-1 py-1"
           style={{
             backgroundColor: "var(--filter-bg)",
             borderColor: "var(--border-color)",
@@ -173,7 +173,7 @@ function FilterBar({
 
         {/* Status */}
         <div
-          className="flex items-center gap-1.5 rounded-lg border px-1 py-1"
+          className="flex flex-wrap items-center gap-1 rounded-lg border px-1 py-1"
           style={{
             backgroundColor: "var(--filter-bg)",
             borderColor: "var(--border-color)",
@@ -267,7 +267,7 @@ function TicketCard({ ticket, onOpenDetail }) {
         {trimText(ticket.description)}
       </p>
 
-      <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-[clamp(0.84rem,0.22vw+0.75rem,1rem)]">
+      <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 text-[clamp(0.84rem,0.22vw+0.75rem,1rem)]">
         <span className="font-medium" style={{ color: "var(--text-muted)" }}>
           #{ticket.id}
         </span>
