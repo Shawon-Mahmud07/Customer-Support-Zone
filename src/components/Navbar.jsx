@@ -7,10 +7,10 @@ function Navbar({ onNewTicket, darkMode, onToggleDark, onExportCSV }) {
         borderColor: "var(--navbar-border)",
       }}
     >
-      <div className="mx-auto flex w-full max-w-370 items-center justify-between px-5 py-3 sm:px-8">
+      <div className="mx-auto flex w-full max-w-370 items-center justify-between gap-2 px-4 py-3 sm:px-8">
         {/* Logo */}
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[linear-gradient(135deg,#632EE3_0%,#9F62F2_100%)] shadow">
+        <div className="flex min-w-0 shrink items-center gap-2">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[linear-gradient(135deg,#632EE3_0%,#9F62F2_100%)] shadow">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -27,7 +27,7 @@ function Navbar({ onNewTicket, darkMode, onToggleDark, onExportCSV }) {
             </svg>
           </div>
           <span
-            className="text-lg font-bold tracking-tight"
+            className="truncate text-sm font-bold tracking-tight sm:text-lg"
             style={{ color: "var(--text-primary)" }}
           >
             Customer{" "}
@@ -38,10 +38,9 @@ function Navbar({ onNewTicket, darkMode, onToggleDark, onExportCSV }) {
         </div>
 
         {/* Right side */}
-        <div className="flex items-center gap-2">
-          
-          {/* Keyboard Shortcuts hint */}
-          <div className="relative group">
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+          {/* Keyboard Shortcuts — hidden on mobile */}
+          <div className="relative group hidden sm:block">
             <button
               className="flex h-9 w-9 items-center justify-center rounded-lg border transition hover:scale-105"
               style={{
@@ -66,7 +65,6 @@ function Navbar({ onNewTicket, darkMode, onToggleDark, onExportCSV }) {
                 />
               </svg>
             </button>
-
             {/* Tooltip */}
             <div
               className="absolute right-0 top-11 z-50 hidden w-48 rounded-xl border p-3 shadow-xl group-hover:block"
@@ -109,11 +107,12 @@ function Navbar({ onNewTicket, darkMode, onToggleDark, onExportCSV }) {
               </div>
             </div>
           </div>
-          {/* Export CSV Button */}
+
+          {/* Export CSV */}
           <button
             onClick={onExportCSV}
             title="Export all tickets as CSV"
-            className="flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition hover:scale-[1.02]"
+            className="flex items-center gap-1.5 rounded-lg border px-2 py-2 text-sm font-medium transition hover:scale-[1.02] sm:px-3"
             style={{
               backgroundColor: "var(--filter-bg)",
               borderColor: "var(--border-color)",
@@ -126,7 +125,7 @@ function Navbar({ onNewTicket, darkMode, onToggleDark, onExportCSV }) {
               fill="none"
               stroke="currentColor"
               strokeWidth={2}
-              className="h-4 w-4"
+              className="h-4 w-4 shrink-0"
             >
               <path
                 strokeLinecap="round"
@@ -136,6 +135,7 @@ function Navbar({ onNewTicket, darkMode, onToggleDark, onExportCSV }) {
             </svg>
             <span className="hidden sm:inline">Export CSV</span>
           </button>
+
           {/* Dark Mode Toggle */}
           <button
             onClick={onToggleDark}
@@ -148,14 +148,13 @@ function Navbar({ onNewTicket, darkMode, onToggleDark, onExportCSV }) {
             }}
           >
             {darkMode ? (
-              /* Sun icon */
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth={2}
-                className="h-4.5 w-4.5"
+                className="h-4 w-4"
               >
                 <circle cx="12" cy="12" r="4" />
                 <path
@@ -164,14 +163,13 @@ function Navbar({ onNewTicket, darkMode, onToggleDark, onExportCSV }) {
                 />
               </svg>
             ) : (
-              /* Moon icon */
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth={2}
-                className="h-4.5 w-4.5"
+                className="h-4 w-4"
               >
                 <path
                   strokeLinecap="round"
@@ -185,7 +183,7 @@ function Navbar({ onNewTicket, darkMode, onToggleDark, onExportCSV }) {
           {/* New Ticket Button */}
           <button
             onClick={onNewTicket}
-            className="flex items-center gap-2 rounded-lg bg-[linear-gradient(90deg,#632EE3_0%,#9F62F2_100%)] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:brightness-95 hover:scale-[1.02]"
+            className="flex items-center gap-1.5 rounded-lg bg-[linear-gradient(90deg,#632EE3_0%,#9F62F2_100%)] px-2.5 py-2 text-sm font-semibold text-white shadow-sm transition hover:brightness-95 hover:scale-[1.02] sm:px-4"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -193,7 +191,7 @@ function Navbar({ onNewTicket, darkMode, onToggleDark, onExportCSV }) {
               fill="none"
               stroke="currentColor"
               strokeWidth={2.5}
-              className="h-4 w-4"
+              className="h-4 w-4 shrink-0"
             >
               <path
                 strokeLinecap="round"
@@ -201,7 +199,7 @@ function Navbar({ onNewTicket, darkMode, onToggleDark, onExportCSV }) {
                 d="M12 4.5v15m7.5-7.5h-15"
               />
             </svg>
-            New Ticket
+            <span className="hidden sm:inline">New Ticket</span>
           </button>
         </div>
       </div>
