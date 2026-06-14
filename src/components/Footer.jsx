@@ -121,12 +121,12 @@ function Footer({ onAboutUs }) {
               {socialLinks.map((item) => (
                 <li
                   key={`${item.icon}-${item.label}`}
-                  className="flex items-center gap-2.5"
+                  className="flex items-center gap-2 min-w-0"
                 >
-                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-[#d1d5db] text-[0.85em] font-semibold">
+                  <span className="shrink-0 inline-flex h-6 w-6 items-center justify-center rounded-full border border-[#d1d5db] text-[0.85em] font-semibold">
                     {item.icon}
                   </span>
-                  <span>{item.label}</span>
+                  <span className="truncate">{item.label}</span>
                 </li>
               ))}
             </ul>

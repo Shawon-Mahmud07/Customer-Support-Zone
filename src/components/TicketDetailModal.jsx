@@ -93,7 +93,7 @@ function TicketDetailModal({
       style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
     >
       <div
-        className="w-full max-w-lg rounded-xl shadow-2xl overflow-hidden"
+        className="w-full max-w-lg rounded-xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
         style={{
           backgroundColor: "var(--bg-card)",
           borderColor: "var(--border-color)",
