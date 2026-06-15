@@ -15,13 +15,15 @@ const priorityStyles = {
 
 const PRIORITIES = ["All", "High", "Medium", "Low"];
 const STATUSES = ["All", "Open", "In-Progress", "Resolved"];
-
+// Sorting options with value and label
 const SORT_OPTIONS = [
   { value: "newest", label: "Newest" },
   { value: "oldest", label: "Oldest" },
   { value: "priority-asc", label: "Priority ↑" },
   { value: "priority-desc", label: "Priority ↓" },
 ];
+
+const ITEMS_PER_PAGE = 6;
 
 function trimText(text, max = 92) {
   if (text.length <= max) return text;
@@ -226,6 +228,89 @@ function FilterBar({
     </div>
   );
 }
+// Simple pagination component
+function Pagination({ currentPage, totalPages, onPageChange }) {
+  if (totalPages <= 1) return null;
+
+  const pages = [];
+  for (let i = 1; i <= totalPages; i++) pages.push(i);
+
+  return (
+    <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+      <button
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+        className="flex h-9 w-9 items-center justify-center rounded-lg border text-sm font-medium transition disabled:opacity-40"
+        style={{
+          backgroundColor: "var(--filter-bg)",
+          borderColor: "var(--border-color)",
+          color: "var(--text-secondary)",
+        }}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          className="h-4 w-4"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+      </button>
+
+      {pages.map((p) => (
+        <button
+          key={p}
+          onClick={() => onPageChange(p)}
+          className="flex h-9 w-9 items-center justify-center rounded-lg border text-sm font-medium transition"
+          style={
+            p === currentPage
+              ? {
+                  backgroundColor: "#632EE3",
+                  borderColor: "#632EE3",
+                  color: "#fff",
+                }
+              : {
+                  backgroundColor: "var(--filter-bg)",
+                  borderColor: "var(--border-color)",
+                  color: "var(--text-secondary)",
+                }
+          }
+        >
+          {p}
+        </button>
+      ))}
+
+      <button
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+        className="flex h-9 w-9 items-center justify-center rounded-lg border text-sm font-medium transition disabled:opacity-40"
+        style={{
+          backgroundColor: "var(--filter-bg)",
+          borderColor: "var(--border-color)",
+          color: "var(--text-secondary)",
+        }}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          className="h-4 w-4"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+  );
+}
+
 
 function TicketCard({ ticket, onOpenDetail }) {
   return (
@@ -347,7 +432,18 @@ function MainSection({
 }) {
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [expandedResolved, setExpandedResolved] = useState(null);
+  const [selectedTicket, setSelectedTicket] = useState(null);
+  const [expandedResolved, setExpandedResolved] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
+// Pagination logic
+  const totalPages = Math.max(1, Math.ceil(tickets.length / ITEMS_PER_PAGE));
+  const safePage = Math.min(currentPage, totalPages);
+  const paginatedTickets = tickets.slice(
+    (safePage - 1) * ITEMS_PER_PAGE,
+    safePage * ITEMS_PER_PAGE,
+  );
+  
   return (
     <section className="mx-auto w-full max-w-370 px-5 pb-10 pt-4 sm:px-8 sm:pb-14">
       <div className="flex flex-col-reverse gap-6 xl:grid xl:grid-cols-[2fr_1fr] xl:gap-8">
