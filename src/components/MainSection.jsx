@@ -1,7 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import TicketDetailModal from "./TicketDetailModal";
-
-
 
 const statusStyles = {
   Open: "bg-[#A6E9BC] text-[#087A2A]",
@@ -433,9 +431,24 @@ function MainSection({
 }) {
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [expandedResolved, setExpandedResolved] = useState(null);
-  const [selectedTicket, setSelectedTicket] = useState(null);
-  const [expandedResolved, setExpandedResolved] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [prevFilters, setPrevFilters] = useState({
+    search,
+    filterPriority,
+    filterStatus,
+    sortBy,
+  });
+
+  const filtersChanged =
+    prevFilters.search !== search ||
+    prevFilters.filterPriority !== filterPriority ||
+    prevFilters.filterStatus !== filterStatus ||
+    prevFilters.sortBy !== sortBy;
+
+  if (filtersChanged) {
+    setPrevFilters({ search, filterPriority, filterStatus, sortBy });
+    setCurrentPage(1);
+  }
 
   // Pagination logic
   const totalPages = Math.max(1, Math.ceil(tickets.length / ITEMS_PER_PAGE));
@@ -518,13 +531,12 @@ function MainSection({
               ))}
             </div>
           )}
+          <Pagination
+            currentPage={safePage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
         </div>
-
-        <Pagination
-          currentPage={safePage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        />
 
         <aside className="rounded-lg p-2 xl:pt-2">
           {/* Task Status */}
