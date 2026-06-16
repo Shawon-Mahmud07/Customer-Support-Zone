@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TicketDetailModal from "./TicketDetailModal";
+
+
 
 const statusStyles = {
   Open: "bg-[#A6E9BC] text-[#087A2A]",
@@ -311,7 +313,6 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
   );
 }
 
-
 function TicketCard({ ticket, onOpenDetail }) {
   return (
     <article
@@ -436,14 +437,14 @@ function MainSection({
   const [expandedResolved, setExpandedResolved] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
-// Pagination logic
+  // Pagination logic
   const totalPages = Math.max(1, Math.ceil(tickets.length / ITEMS_PER_PAGE));
   const safePage = Math.min(currentPage, totalPages);
   const paginatedTickets = tickets.slice(
     (safePage - 1) * ITEMS_PER_PAGE,
     safePage * ITEMS_PER_PAGE,
   );
-  
+
   return (
     <section className="mx-auto w-full max-w-370 px-5 pb-10 pt-4 sm:px-8 sm:pb-14">
       <div className="flex flex-col-reverse gap-6 xl:grid xl:grid-cols-[2fr_1fr] xl:gap-8">
@@ -508,7 +509,7 @@ function MainSection({
             </div>
           ) : (
             <div className="mt-4 grid grid-cols-1 gap-3 lg:grid-cols-2">
-              {tickets.map((ticket) => (
+              {paginatedTickets.map((ticket) => (
                 <TicketCard
                   key={ticket.id}
                   ticket={ticket}
@@ -518,6 +519,12 @@ function MainSection({
             </div>
           )}
         </div>
+
+        <Pagination
+          currentPage={safePage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
 
         <aside className="rounded-lg p-2 xl:pt-2">
           {/* Task Status */}
