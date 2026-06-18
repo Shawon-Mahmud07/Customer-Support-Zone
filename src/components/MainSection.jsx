@@ -438,13 +438,13 @@ function MainSection({
     filterStatus,
     sortBy,
   });
-
+// Check if any filter has changed
   const filtersChanged =
     prevFilters.search !== search ||
     prevFilters.filterPriority !== filterPriority ||
     prevFilters.filterStatus !== filterStatus ||
     prevFilters.sortBy !== sortBy;
-
+// Reset to first page when filters change
   if (filtersChanged) {
     setPrevFilters({ search, filterPriority, filterStatus, sortBy });
     setCurrentPage(1);
@@ -719,6 +719,7 @@ function MainSection({
                           className="flex items-center gap-1.5 rounded-md px-2 py-1.5"
                           style={{ backgroundColor: "#A6E9BC22" }}
                         >
+                          
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
