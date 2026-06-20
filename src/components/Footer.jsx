@@ -1,5 +1,9 @@
 const companyLinks = ["About Us", "Our Mission", "Contact Sales"];
-const serviceLinks = ["Products & Services", "Customer Stories", "Download Apps"];
+const serviceLinks = [
+  "Products & Services",
+  "Customer Stories",
+  "Download Apps",
+];
 const infoLinks = ["Privacy Policy", "Terms & Conditions", "Join Us"];
 
 // Static social items with lightweight text-based icons.
@@ -10,32 +14,10 @@ const socialLinks = [
   { label: "support@cst.com", icon: "@" },
 ];
 
-// Pages that have dedicated routes
-const PAGE_ROUTES = [
-  "About Us", "Our Mission", "Contact Sales",
-  "Products & Services", "Customer Stories", "Download Apps",
-  "Privacy Policy", "Terms & Conditions", "Join Us",
-];
-
 // Keep footer year current without manual updates.
 const year = new Date().getFullYear();
 
-function Footer({ onNavigate }) {
-  function renderLink(item) {
-    if (PAGE_ROUTES.includes(item)) {
-      return (
-        <button
-          onClick={() => onNavigate(item)}
-          className="hover:text-white hover:underline transition-colors cursor-pointer bg-transparent border-none text-[#c3c7cf] text-left p-0"
-          style={{ fontSize: "inherit" }}
-        >
-          {item}
-        </button>
-      );
-    }
-    return item;
-  }
-
+function Footer({ onAboutUs }) {
   return (
     <footer className="mt-6 bg-black text-white">
       <div className="mx-auto w-full max-w-370 px-5 pb-6 pt-14 sm:px-8 sm:pt-16">
@@ -59,7 +41,19 @@ function Footer({ onNavigate }) {
             </h3>
             <ul className="mt-4 space-y-2 text-[clamp(1.05rem,0.2vw+0.95rem,1.2rem)] text-[#c3c7cf]">
               {companyLinks.map((item) => (
-                <li key={item}>{renderLink(item)}</li>
+                <li key={item}>
+                  {item === "About Us" ? (
+                    <button
+                      onClick={onAboutUs}
+                      className="hover:text-white hover:underline transition-colors cursor-pointer bg-transparent border-none text-[#c3c7cf] text-left p-0"
+                      style={{ fontSize: "inherit" }}
+                    >
+                      {item}
+                    </button>
+                  ) : (
+                    item
+                  )}
+                </li>
               ))}
             </ul>
           </div>
@@ -70,7 +64,7 @@ function Footer({ onNavigate }) {
             </h3>
             <ul className="mt-4 space-y-2 text-[clamp(1.05rem,0.2vw+0.95rem,1.2rem)] text-[#c3c7cf]">
               {serviceLinks.map((item) => (
-                <li key={item}>{renderLink(item)}</li>
+                <li key={item}>{item}</li>
               ))}
             </ul>
           </div>
@@ -81,7 +75,7 @@ function Footer({ onNavigate }) {
             </h3>
             <ul className="mt-4 space-y-2 text-[clamp(1.05rem,0.2vw+0.95rem,1.2rem)] text-[#c3c7cf]">
               {infoLinks.map((item) => (
-                <li key={item}>{renderLink(item)}</li>
+                <li key={item}>{item}</li>
               ))}
             </ul>
           </div>
@@ -93,7 +87,10 @@ function Footer({ onNavigate }) {
             {/* Social handles / email list */}
             <ul className="mt-4 space-y-2.5 text-[clamp(1.05rem,0.2vw+0.95rem,1.2rem)] text-[#d4d7de]">
               {socialLinks.map((item) => (
-                <li key={`${item.icon}-${item.label}`} className="flex items-center gap-2 min-w-0">
+                <li
+                  key={`${item.icon}-${item.label}`}
+                  className="flex items-center gap-2 min-w-0"
+                >
                   <span className="shrink-0 inline-flex h-6 w-6 items-center justify-center rounded-full border border-[#d1d5db] text-[0.85em] font-semibold">
                     {item.icon}
                   </span>
