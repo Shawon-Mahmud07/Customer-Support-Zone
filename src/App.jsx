@@ -63,7 +63,8 @@ function App() {
   const [sortBy, setSortBy] = useState("newest");
   // Our Mission state
   const [showOurMission, setShowOurMission] = useState(false);
-
+  
+// Persist tickets, task status, resolved tasks, and ticket notes to localStorage
   useEffect(() => {
     localStorage.setItem("csz_tickets", JSON.stringify(tickets));
   }, [tickets]);
@@ -115,7 +116,7 @@ function App() {
         setDarkMode((prev) => !prev);
       }
     }
-
+// Add event listener for keydown
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [showModal]);
@@ -145,7 +146,7 @@ function App() {
 
     return result;
   }, [tickets, search, filterPriority, filterStatus, sortBy]);
-
+// Ticket count
   const totalCount = tickets.length + resolvedTasks.length;
   const inProgressCount = taskStatus.length;
   const resolvedCount = resolvedTasks.length;
