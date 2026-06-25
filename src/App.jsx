@@ -8,6 +8,7 @@ import Footer from "./components/Footer";
 import NewTicketModal from "./components/NewTicketModal";
 import initialTickets from "./data/tickets.json";
 import AboutUs from "./components/AboutUs";
+import OurMission from "./components/OurMission";
 
 function loadState(key, fallback) {
   try {
@@ -60,6 +61,8 @@ function App() {
 
   // Sort state: "newest" | "oldest" | "priority-asc" | "priority-desc"
   const [sortBy, setSortBy] = useState("newest");
+  // Our Mission state
+  const [showOurMission, setShowOurMission] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("csz_tickets", JSON.stringify(tickets));
@@ -115,7 +118,7 @@ function App() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [showModal]);
 
   // Filtered + Sorted tickets
   const filteredTickets = useMemo(() => {
@@ -300,6 +303,16 @@ function App() {
   if (showAboutUs) {
     return <AboutUs onBack={() => setShowAboutUs(false)} />;
   }
+  // Show About Us page
+  if (showAboutUs) {
+    return <AboutUs onBack={() => setShowAboutUs(false)} />;
+  }
+
+  // Show Our Mission page
+  if (showOurMission) {
+    return <OurMission onBack={() => setShowOurMission(false)} />;
+  }
+
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--bg-base)" }}>
       <Navbar
@@ -339,7 +352,10 @@ function App() {
         agents={agents}
         onAssignTicket={handleAssignTicket}
       />
-      <Footer onAboutUs={() => setShowAboutUs(true)} />
+      <Footer
+        onAboutUs={() => setShowAboutUs(true)}
+        onOurMission={() => setShowOurMission(true)}
+      />
       <ToastContainer
         position="top-right"
         autoClose={1800}

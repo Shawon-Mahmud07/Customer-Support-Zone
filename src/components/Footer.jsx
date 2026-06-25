@@ -1,11 +1,3 @@
-const companyLinks = ["About Us", "Our Mission", "Contact Sales"];
-const serviceLinks = [
-  "Products & Services",
-  "Customer Stories",
-  "Download Apps",
-];
-const infoLinks = ["Privacy Policy", "Terms & Conditions", "Join Us"];
-
 // Static social items with lightweight text-based icons.
 const socialLinks = [
   { label: "@CS - Ticket System", icon: "X" },
@@ -17,7 +9,17 @@ const socialLinks = [
 // Keep footer year current without manual updates.
 const year = new Date().getFullYear();
 
-function Footer({ onAboutUs }) {
+function Footer({
+  onAboutUs,
+  onOurMission,
+  onContactSales,
+  onProductsServices,
+  onCustomerStories,
+  onDownloadApps,
+  onPrivacyPolicy,
+  onTermsConditions,
+  onJoinUs,
+}) {
   return (
     <footer
       className="mt-6 border-t"
@@ -48,6 +50,7 @@ function Footer({ onAboutUs }) {
             </p>
           </div>
 
+          {/* Company Column */}
           <div>
             <h3
               className="text-[clamp(1.45rem,0.55vw+1.2rem,2rem)] font-medium"
@@ -59,27 +62,46 @@ function Footer({ onAboutUs }) {
               className="mt-4 space-y-2 text-[clamp(1.05rem,0.2vw+0.95rem,1.2rem)]"
               style={{ color: "var(--text-secondary)" }}
             >
-              {companyLinks.map((item) => (
-                <li key={item}>
-                  {item === "About Us" ? (
-                    <button
-                      onClick={onAboutUs}
-                      className="hover:opacity-80 hover:underline transition-opacity cursor-pointer bg-transparent border-none text-left p-0"
-                      style={{
-                        color: "var(--text-secondary)",
-                        fontSize: "inherit",
-                      }}
-                    >
-                      {item}
-                    </button>
-                  ) : (
-                    item
-                  )}
-                </li>
-              ))}
+              <li>
+                <button
+                  onClick={onAboutUs}
+                  className="hover:opacity-80 hover:underline transition-opacity cursor-pointer bg-transparent border-none text-left p-0"
+                  style={{
+                    color: "var(--text-secondary)",
+                    fontSize: "inherit",
+                  }}
+                >
+                  About Us
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={onOurMission}
+                  className="hover:opacity-80 hover:underline transition-opacity cursor-pointer bg-transparent border-none text-left p-0"
+                  style={{
+                    color: "var(--text-secondary)",
+                    fontSize: "inherit",
+                  }}
+                >
+                  Our Mission
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={onContactSales}
+                  className="hover:opacity-80 hover:underline transition-opacity cursor-pointer bg-transparent border-none text-left p-0"
+                  style={{
+                    color: "var(--text-secondary)",
+                    fontSize: "inherit",
+                  }}
+                >
+                  Contact Sales
+                </button>
+              </li>
             </ul>
           </div>
 
+          {/* Services Column */}
           <div>
             <h3
               className="text-[clamp(1.45rem,0.55vw+1.2rem,2rem)] font-medium"
@@ -91,12 +113,46 @@ function Footer({ onAboutUs }) {
               className="mt-4 space-y-2 text-[clamp(1.05rem,0.2vw+0.95rem,1.2rem)]"
               style={{ color: "var(--text-secondary)" }}
             >
-              {serviceLinks.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
+              <li>
+                <button
+                  onClick={onProductsServices}
+                  className="hover:opacity-80 hover:underline transition-opacity cursor-pointer bg-transparent border-none text-left p-0"
+                  style={{
+                    color: "var(--text-secondary)",
+                    fontSize: "inherit",
+                  }}
+                >
+                  Products & Services
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={onCustomerStories}
+                  className="hover:opacity-80 hover:underline transition-opacity cursor-pointer bg-transparent border-none text-left p-0"
+                  style={{
+                    color: "var(--text-secondary)",
+                    fontSize: "inherit",
+                  }}
+                >
+                  Customer Stories
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={onDownloadApps}
+                  className="hover:opacity-80 hover:underline transition-opacity cursor-pointer bg-transparent border-none text-left p-0"
+                  style={{
+                    color: "var(--text-secondary)",
+                    fontSize: "inherit",
+                  }}
+                >
+                  Download Apps
+                </button>
+              </li>
             </ul>
           </div>
 
+          {/* Information Column */}
           <div>
             <h3
               className="text-[clamp(1.45rem,0.55vw+1.2rem,2rem)] font-medium"
@@ -108,12 +164,46 @@ function Footer({ onAboutUs }) {
               className="mt-4 space-y-2 text-[clamp(1.05rem,0.2vw+0.95rem,1.2rem)]"
               style={{ color: "var(--text-secondary)" }}
             >
-              {infoLinks.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
+              <li>
+                <button
+                  onClick={onPrivacyPolicy}
+                  className="hover:opacity-80 hover:underline transition-opacity cursor-pointer bg-transparent border-none text-left p-0"
+                  style={{
+                    color: "var(--text-secondary)",
+                    fontSize: "inherit",
+                  }}
+                >
+                  Privacy Policy
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={onTermsConditions}
+                  className="hover:opacity-80 hover:underline transition-opacity cursor-pointer bg-transparent border-none text-left p-0"
+                  style={{
+                    color: "var(--text-secondary)",
+                    fontSize: "inherit",
+                  }}
+                >
+                  Terms & Conditions
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={onJoinUs}
+                  className="hover:opacity-80 hover:underline transition-opacity cursor-pointer bg-transparent border-none text-left p-0"
+                  style={{
+                    color: "var(--text-secondary)",
+                    fontSize: "inherit",
+                  }}
+                >
+                  Join Us
+                </button>
+              </li>
             </ul>
           </div>
 
+          {/* Social Links Column */}
           <div>
             <h3
               className="text-[clamp(1.45rem,0.55vw+1.2rem,2rem)] font-medium"
@@ -121,7 +211,6 @@ function Footer({ onAboutUs }) {
             >
               Social Links
             </h3>
-            {/* Social handles / email list */}
             <ul
               className="mt-4 space-y-2.5 text-[clamp(1.05rem,0.2vw+0.95rem,1.2rem)]"
               style={{ color: "var(--text-secondary)" }}
