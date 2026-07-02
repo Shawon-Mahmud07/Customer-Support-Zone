@@ -147,7 +147,7 @@ function App() {
     return result;
   }, [tickets, search, filterPriority, filterStatus, sortBy]);
 // Ticket count
-  const totalCount = tickets.length + resolvedTasks.length;
+  const totalCount = tickets.length + taskStatus.length + resolvedTasks.length;
   const inProgressCount = taskStatus.length;
   const resolvedCount = resolvedTasks.length;
 
@@ -300,10 +300,7 @@ function App() {
 
     toast.success(`${allTickets.length} tickets exported!`);
   }
-  // Show About Us page
-  if (showAboutUs) {
-    return <AboutUs onBack={() => setShowAboutUs(false)} />;
-  }
+  
   // Show About Us page
   if (showAboutUs) {
     return <AboutUs onBack={() => setShowAboutUs(false)} />;
