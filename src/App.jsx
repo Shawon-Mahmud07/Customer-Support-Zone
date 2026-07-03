@@ -9,6 +9,7 @@ import NewTicketModal from "./components/NewTicketModal";
 import initialTickets from "./data/tickets.json";
 import AboutUs from "./components/AboutUs";
 import OurMission from "./components/OurMission";
+import ContactSales from "./components/ContactSales";
 
 function loadState(key, fallback) {
   try {
@@ -63,8 +64,10 @@ function App() {
   const [sortBy, setSortBy] = useState("newest");
   // Our Mission state
   const [showOurMission, setShowOurMission] = useState(false);
-  
-// Persist tickets, task status, resolved tasks, and ticket notes to localStorage
+
+  const [showContactSales, setShowContactSales] = useState(false);
+
+  // Persist tickets, task status, resolved tasks, and ticket notes to localStorage
   useEffect(() => {
     localStorage.setItem("csz_tickets", JSON.stringify(tickets));
   }, [tickets]);
@@ -116,7 +119,7 @@ function App() {
         setDarkMode((prev) => !prev);
       }
     }
-// Add event listener for keydown
+    // Add event listener for keydown
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [showModal]);
@@ -146,7 +149,7 @@ function App() {
 
     return result;
   }, [tickets, search, filterPriority, filterStatus, sortBy]);
-// Ticket count
+  // Ticket count
   const totalCount = tickets.length + taskStatus.length + resolvedTasks.length;
   const inProgressCount = taskStatus.length;
   const resolvedCount = resolvedTasks.length;
@@ -300,7 +303,7 @@ function App() {
 
     toast.success(`${allTickets.length} tickets exported!`);
   }
-  
+
   // Show About Us page
   if (showAboutUs) {
     return <AboutUs onBack={() => setShowAboutUs(false)} />;
@@ -309,6 +312,10 @@ function App() {
   // Show Our Mission page
   if (showOurMission) {
     return <OurMission onBack={() => setShowOurMission(false)} />;
+  }
+  // show check:
+  if (showContactSales) {
+    return <ContactSales onBack={() => setShowContactSales(false)} />;
   }
 
   return (
@@ -353,6 +360,7 @@ function App() {
       <Footer
         onAboutUs={() => setShowAboutUs(true)}
         onOurMission={() => setShowOurMission(true)}
+        onContactSales={() => setShowContactSales(true)}
       />
       <ToastContainer
         position="top-right"
