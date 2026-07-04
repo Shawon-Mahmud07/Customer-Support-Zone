@@ -9,6 +9,7 @@ import NewTicketModal from "./components/NewTicketModal";
 import initialTickets from "./data/tickets.json";
 import AboutUs from "./components/AboutUs";
 import OurMission from "./components/OurMission";
+import ProductsServices from "./components/ProductsServices";
 import ContactSales from "./components/ContactSales";
 
 function loadState(key, fallback) {
@@ -64,6 +65,7 @@ function App() {
   const [sortBy, setSortBy] = useState("newest");
   // Our Mission state
   const [showOurMission, setShowOurMission] = useState(false);
+  const [showProductsServices, setShowProductsServices] = useState(false);
 
   const [showContactSales, setShowContactSales] = useState(false);
 
@@ -318,6 +320,10 @@ function App() {
     return <ContactSales onBack={() => setShowContactSales(false)} />;
   }
 
+  if (showProductsServices) {
+    return <ProductsServices onBack={() => setShowProductsServices(false)} />;
+  }
+
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--bg-base)" }}>
       <Navbar
@@ -361,6 +367,7 @@ function App() {
         onAboutUs={() => setShowAboutUs(true)}
         onOurMission={() => setShowOurMission(true)}
         onContactSales={() => setShowContactSales(true)}
+        onProductsServices={() => setShowProductsServices(true)}
       />
       <ToastContainer
         position="top-right"
