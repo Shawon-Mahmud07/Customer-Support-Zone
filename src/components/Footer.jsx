@@ -116,11 +116,8 @@ function Footer({
               <li>
                 <button
                   onClick={onProductsServices}
-                  className="hover:opacity-80 hover:underline transition-opacity cursor-pointer bg-transparent border-none text-left p-0"
-                  style={{
-                    color: "var(--text-secondary)",
-                    fontSize: "inherit",
-                  }}
+                  className="border-none bg-transparent p-0 transition hover:underline cursor-pointer"
+                  style={{ color: "var(--text-secondary)" }}
                 >
                   Products & Services
                 </button>
