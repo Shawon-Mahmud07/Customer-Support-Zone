@@ -11,6 +11,7 @@ import AboutUs from "./components/AboutUs";
 import OurMission from "./components/OurMission";
 import ProductsServices from "./components/ProductsServices";
 import ContactSales from "./components/ContactSales";
+import CustomerStories from "./components/CustomerStories";
 
 function loadState(key, fallback) {
   try {
@@ -66,8 +67,10 @@ function App() {
   // Our Mission state
   const [showOurMission, setShowOurMission] = useState(false);
   const [showProductsServices, setShowProductsServices] = useState(false);
-
   const [showContactSales, setShowContactSales] = useState(false);
+const [showCustomerStories, setShowCustomerStories] = useState(false);
+  
+  
 
   // Persist tickets, task status, resolved tasks, and ticket notes to localStorage
   useEffect(() => {
@@ -319,9 +322,13 @@ function App() {
   if (showContactSales) {
     return <ContactSales onBack={() => setShowContactSales(false)} />;
   }
-
+// Show Products & Services page
   if (showProductsServices) {
     return <ProductsServices onBack={() => setShowProductsServices(false)} />;
+  }
+  // Show Customer Stories page
+  if (showCustomerStories) {
+    return <CustomerStories onBack={() => setShowCustomerStories(false)} />;
   }
 
   return (
@@ -368,6 +375,7 @@ function App() {
         onOurMission={() => setShowOurMission(true)}
         onContactSales={() => setShowContactSales(true)}
         onProductsServices={() => setShowProductsServices(true)}
+        onCustomerStories={() => setShowCustomerStories(true)}
       />
       <ToastContainer
         position="top-right"
