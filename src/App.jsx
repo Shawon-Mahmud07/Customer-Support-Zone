@@ -159,6 +159,7 @@ const [showCustomerStories, setShowCustomerStories] = useState(false);
   const inProgressCount = taskStatus.length;
   const resolvedCount = resolvedTasks.length;
 
+  // Add new ticket
   function handleNewTicketSubmit(form) {
     const newTicket = {
       id: Date.now(),
@@ -182,7 +183,7 @@ const [showCustomerStories, setShowCustomerStories] = useState(false);
       toast.info("Ticket already in Task Status.");
       return;
     }
-
+// Update ticket status to "In-Progress" and move it to taskStatus
     const updated = { ...selected, status: "In-Progress" };
     setTaskStatus((prev) => [updated, ...prev]);
     setTickets((prev) =>
@@ -200,7 +201,7 @@ const [showCustomerStories, setShowCustomerStories] = useState(false);
   }
 
   // Mark task as complete
-  function handleCompleteTask(ticketId) {
+function handleCompleteTask(ticketId) {
     const selected = taskStatus.find((ticket) => ticket.id === ticketId);
     if (!selected) return;
 
@@ -242,6 +243,7 @@ const [showCustomerStories, setShowCustomerStories] = useState(false);
     }));
   }
 
+// Delete note from ticket
   function handleDeleteNote(ticketId, noteId) {
     setTicketNotes((prev) => ({
       ...prev,
@@ -264,7 +266,7 @@ const [showCustomerStories, setShowCustomerStories] = useState(false);
     }
   }
 
-  // Export all tickets to CSV
+//  Export all tickets to CSV
   function handleExportCSV() {
     const allTickets = [...tickets, ...taskStatus, ...resolvedTasks];
 
@@ -292,12 +294,10 @@ const [showCustomerStories, setShowCustomerStories] = useState(false);
       t.status,
       t.createdAt,
     ]);
-
     const csvContent = [
       headers.join(","),
       ...rows.map((r) => r.join(",")),
     ].join("\n");
-
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -305,7 +305,6 @@ const [showCustomerStories, setShowCustomerStories] = useState(false);
     link.download = `tickets_${new Date().toISOString().slice(0, 10)}.csv`;
     link.click();
     URL.revokeObjectURL(url);
-
     toast.success(`${allTickets.length} tickets exported!`);
   }
 
@@ -333,12 +332,14 @@ const [showCustomerStories, setShowCustomerStories] = useState(false);
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--bg-base)" }}>
+      {/*  */}
       <Navbar
         onNewTicket={() => setShowModal(true)}
         darkMode={darkMode}
         onToggleDark={() => setDarkMode((prev) => !prev)}
         onExportCSV={handleExportCSV}
       />
+      {/* Banner */}
       <Banner
         totalCount={totalCount}
         inProgressCount={inProgressCount}
@@ -348,6 +349,7 @@ const [showCustomerStories, setShowCustomerStories] = useState(false);
         mediumCount={tickets.filter((t) => t.priority === "Medium").length}
         lowCount={tickets.filter((t) => t.priority === "Low").length}
       />
+    {/* Main section */}
       <MainSection
         onEditTicket={handleEditTicket}
         tickets={filteredTickets}
@@ -370,6 +372,7 @@ const [showCustomerStories, setShowCustomerStories] = useState(false);
         agents={agents}
         onAssignTicket={handleAssignTicket}
       />
+       {/* Footer */}
       <Footer
         onAboutUs={() => setShowAboutUs(true)}
         onOurMission={() => setShowOurMission(true)}
@@ -377,13 +380,14 @@ const [showCustomerStories, setShowCustomerStories] = useState(false);
         onProductsServices={() => setShowProductsServices(true)}
         onCustomerStories={() => setShowCustomerStories(true)}
       />
+    {/* Toast notifications */}
       <ToastContainer
         position="top-right"
         autoClose={1800}
         hideProgressBar
         theme="colored"
       />
-
+ {/* New Ticket Modal */}
       {showModal && (
         <NewTicketModal
           onClose={() => setShowModal(false)}
