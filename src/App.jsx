@@ -12,6 +12,7 @@ import OurMission from "./components/OurMission";
 import ProductsServices from "./components/ProductsServices";
 import ContactSales from "./components/ContactSales";
 import CustomerStories from "./components/CustomerStories";
+import DownloadApps from "./components/DownloadApps";
 
 function loadState(key, fallback) {
   try {
@@ -68,7 +69,8 @@ function App() {
   const [showOurMission, setShowOurMission] = useState(false);
   const [showProductsServices, setShowProductsServices] = useState(false);
   const [showContactSales, setShowContactSales] = useState(false);
-const [showCustomerStories, setShowCustomerStories] = useState(false);
+  const [showCustomerStories, setShowCustomerStories] = useState(false);
+  const [showDownloadApps, setShowDownloadApps] = useState(false);
   
   
 
@@ -330,6 +332,9 @@ function handleCompleteTask(ticketId) {
     return <CustomerStories onBack={() => setShowCustomerStories(false)} />;
   }
 
+if (showDownloadApps) {
+  return <DownloadApps onBack={() => setShowDownloadApps(false)} />;
+}
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--bg-base)" }}>
       {/*  */}
@@ -349,7 +354,7 @@ function handleCompleteTask(ticketId) {
         mediumCount={tickets.filter((t) => t.priority === "Medium").length}
         lowCount={tickets.filter((t) => t.priority === "Low").length}
       />
-    {/* Main section */}
+      {/* Main section */}
       <MainSection
         onEditTicket={handleEditTicket}
         tickets={filteredTickets}
@@ -372,22 +377,23 @@ function handleCompleteTask(ticketId) {
         agents={agents}
         onAssignTicket={handleAssignTicket}
       />
-       {/* Footer */}
+      {/* Footer */}
       <Footer
         onAboutUs={() => setShowAboutUs(true)}
         onOurMission={() => setShowOurMission(true)}
         onContactSales={() => setShowContactSales(true)}
         onProductsServices={() => setShowProductsServices(true)}
         onCustomerStories={() => setShowCustomerStories(true)}
+        onDownloadApps={() => setShowDownloadApps(true)}
       />
-    {/* Toast notifications */}
+      {/* Toast notifications */}
       <ToastContainer
         position="top-right"
         autoClose={1800}
         hideProgressBar
         theme="colored"
       />
- {/* New Ticket Modal */}
+      {/* New Ticket Modal */}
       {showModal && (
         <NewTicketModal
           onClose={() => setShowModal(false)}
