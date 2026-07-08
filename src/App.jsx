@@ -22,9 +22,10 @@ function loadState(key, fallback) {
     return fallback;
   }
 }
-
+// Priority order for sorting
 const PRIORITY_ORDER = { High: 0, Medium: 1, Low: 2 };
 
+// App component
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem("csz_darkMode") === "true";
@@ -46,6 +47,7 @@ function App() {
   const [ticketNotes, setTicketNotes] = useState(() =>
     loadState("csz_ticketNotes", {}),
   );
+
   // Team members for About Us page
   const [agents] = useState([
     { id: 1, name: "Shawon Mahmud", initials: "SM" },
@@ -331,7 +333,7 @@ function handleCompleteTask(ticketId) {
   if (showCustomerStories) {
     return <CustomerStories onBack={() => setShowCustomerStories(false)} />;
   }
-
+// Show Download Apps page
 if (showDownloadApps) {
   return <DownloadApps onBack={() => setShowDownloadApps(false)} />;
 }
