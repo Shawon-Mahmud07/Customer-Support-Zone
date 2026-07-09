@@ -13,6 +13,7 @@ import ProductsServices from "./components/ProductsServices";
 import ContactSales from "./components/ContactSales";
 import CustomerStories from "./components/CustomerStories";
 import DownloadApps from "./components/DownloadApps";
+import PrivacyPolicy from "./components/PrivacyPolicy";
 
 function loadState(key, fallback) {
   try {
@@ -73,8 +74,7 @@ function App() {
   const [showContactSales, setShowContactSales] = useState(false);
   const [showCustomerStories, setShowCustomerStories] = useState(false);
   const [showDownloadApps, setShowDownloadApps] = useState(false);
-  
-  
+  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
 
   // Persist tickets, task status, resolved tasks, and ticket notes to localStorage
   useEffect(() => {
@@ -187,7 +187,7 @@ function App() {
       toast.info("Ticket already in Task Status.");
       return;
     }
-// Update ticket status to "In-Progress" and move it to taskStatus
+    // Update ticket status to "In-Progress" and move it to taskStatus
     const updated = { ...selected, status: "In-Progress" };
     setTaskStatus((prev) => [updated, ...prev]);
     setTickets((prev) =>
@@ -205,7 +205,7 @@ function App() {
   }
 
   // Mark task as complete
-function handleCompleteTask(ticketId) {
+  function handleCompleteTask(ticketId) {
     const selected = taskStatus.find((ticket) => ticket.id === ticketId);
     if (!selected) return;
 
@@ -247,7 +247,7 @@ function handleCompleteTask(ticketId) {
     }));
   }
 
-// Delete note from ticket
+  // Delete note from ticket
   function handleDeleteNote(ticketId, noteId) {
     setTicketNotes((prev) => ({
       ...prev,
@@ -270,7 +270,7 @@ function handleCompleteTask(ticketId) {
     }
   }
 
-//  Export all tickets to CSV
+  //  Export all tickets to CSV
   function handleExportCSV() {
     const allTickets = [...tickets, ...taskStatus, ...resolvedTasks];
 
@@ -325,7 +325,7 @@ function handleCompleteTask(ticketId) {
   if (showContactSales) {
     return <ContactSales onBack={() => setShowContactSales(false)} />;
   }
-// Show Products & Services page
+  // Show Products & Services page
   if (showProductsServices) {
     return <ProductsServices onBack={() => setShowProductsServices(false)} />;
   }
@@ -333,10 +333,15 @@ function handleCompleteTask(ticketId) {
   if (showCustomerStories) {
     return <CustomerStories onBack={() => setShowCustomerStories(false)} />;
   }
-// Show Download Apps page
-if (showDownloadApps) {
-  return <DownloadApps onBack={() => setShowDownloadApps(false)} />;
-}
+  // Show Download Apps page
+  if (showDownloadApps) {
+    return <DownloadApps onBack={() => setShowDownloadApps(false)} />;
+  }
+
+  if (showPrivacyPolicy) {
+    return <PrivacyPolicy onBack={() => setShowPrivacyPolicy(false)} />;
+  }
+
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--bg-base)" }}>
       {/*  */}
@@ -387,6 +392,7 @@ if (showDownloadApps) {
         onProductsServices={() => setShowProductsServices(true)}
         onCustomerStories={() => setShowCustomerStories(true)}
         onDownloadApps={() => setShowDownloadApps(true)}
+        onPrivacyPolicy={() => setShowPrivacyPolicy(true)}
       />
       {/* Toast notifications */}
       <ToastContainer
