@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+// Plan data
 const plans = [
   {
     name: "Starter",
@@ -48,7 +49,7 @@ const plans = [
     highlighted: false,
   },
 ];
-
+// FAQ data
 const faqs = [
   {
     q: "Can I switch plans later?",

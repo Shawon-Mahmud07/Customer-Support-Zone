@@ -337,7 +337,7 @@ function App() {
   if (showDownloadApps) {
     return <DownloadApps onBack={() => setShowDownloadApps(false)} />;
   }
-
+// Show Privacy Policy page
   if (showPrivacyPolicy) {
     return <PrivacyPolicy onBack={() => setShowPrivacyPolicy(false)} />;
   }
