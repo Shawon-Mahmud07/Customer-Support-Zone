@@ -15,6 +15,7 @@ import CustomerStories from "./components/CustomerStories";
 import DownloadApps from "./components/DownloadApps";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import TermsConditions from "./components/TermsConditions";
+import JoinUs from "./components/JoinUs";
 
 function loadState(key, fallback) {
   try {
@@ -77,6 +78,7 @@ function App() {
   const [showDownloadApps, setShowDownloadApps] = useState(false);
   const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
   const [showTermsConditions, setShowTermsConditions] = useState(false);
+  const [showJoinUs, setShowJoinUs] = useState(false);
 
   // Persist tickets, task status, resolved tasks, and ticket notes to localStorage
   useEffect(() => {
@@ -347,6 +349,10 @@ function App() {
   if (showTermsConditions) {
     return <TermsConditions onBack={() => setShowTermsConditions(false)} />;
   }
+  // Show Join Us page
+  if (showJoinUs) {
+    return <JoinUs onBack={() => setShowJoinUs(false)} />;
+  }
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--bg-base)" }}>
@@ -400,6 +406,7 @@ function App() {
         onDownloadApps={() => setShowDownloadApps(true)}
         onPrivacyPolicy={() => setShowPrivacyPolicy(true)}
         onTermsConditions={() => setShowTermsConditions(true)}
+        onJoinUs={() => setShowJoinUs(true)}
       />
       {/* Toast notifications */}
       <ToastContainer
