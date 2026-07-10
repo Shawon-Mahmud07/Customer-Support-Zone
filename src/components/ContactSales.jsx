@@ -49,6 +49,7 @@ const plans = [
     highlighted: false,
   },
 ];
+
 // FAQ data
 const faqs = [
   {
