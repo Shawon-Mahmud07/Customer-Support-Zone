@@ -1,5 +1,10 @@
 import { useState } from "react";
 import TicketDetailModal from "./TicketDetailModal";
+import {
+  FilterBarSkeleton,
+  TicketGridSkeleton,
+  TaskListSkeleton,
+} from "./TicketSkeleton";
 
 const statusStyles = {
   Open: "bg-[#A6E9BC] text-[#087A2A]",
@@ -428,6 +433,7 @@ function MainSection({
   onDeleteNote,
   agents,
   onAssignTicket,
+  isLoading,
 }) {
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [expandedResolved, setExpandedResolved] = useState(null);
@@ -438,13 +444,13 @@ function MainSection({
     filterStatus,
     sortBy,
   });
-// Check if any filter has changed
+  // Check if any filter has changed
   const filtersChanged =
     prevFilters.search !== search ||
     prevFilters.filterPriority !== filterPriority ||
     prevFilters.filterStatus !== filterStatus ||
     prevFilters.sortBy !== sortBy;
-// Reset to first page when filters change
+  // Reset to first page when filters change
   if (filtersChanged) {
     setPrevFilters({ search, filterPriority, filterStatus, sortBy });
     setCurrentPage(1);
@@ -468,24 +474,32 @@ function MainSection({
           >
             Customer Tickets
             <span className="inline-flex items-center justify-center rounded-full bg-[#632EE3] px-2.5 py-0.5 text-sm font-semibold text-white min-w-7">
-              {tickets.length}
+              {isLoading ? "…" : tickets.length}
             </span>
           </h2>
 
-          <FilterBar
-            search={search}
-            onSearchChange={onSearchChange}
-            filterPriority={filterPriority}
-            onFilterPriority={onFilterPriority}
-            filterStatus={filterStatus}
-            onFilterStatus={onFilterStatus}
-            sortBy={sortBy}
-            onSortChange={onSortChange}
-          />
+          {isLoading ? (
+            <FilterBarSkeleton />
+          ) : (
+            <div className="fade-in">
+              <FilterBar
+                search={search}
+                onSearchChange={onSearchChange}
+                filterPriority={filterPriority}
+                onFilterPriority={onFilterPriority}
+                filterStatus={filterStatus}
+                onFilterStatus={onFilterStatus}
+                sortBy={sortBy}
+                onSortChange={onSortChange}
+              />
+            </div>
+          )}
 
-          {tickets.length === 0 ? (
+          {isLoading ? (
+            <TicketGridSkeleton count={6} />
+          ) : tickets.length === 0 ? (
             <div
-              className="mt-8 flex flex-col items-center justify-center rounded-xl border border-dashed py-16 text-center"
+              className="fade-in mt-8 flex flex-col items-center justify-center rounded-xl border border-dashed py-16 text-center"
               style={{
                 borderColor: "var(--border-color)",
                 backgroundColor: "var(--bg-card)",
@@ -521,7 +535,7 @@ function MainSection({
               </p>
             </div>
           ) : (
-            <div className="mt-4 grid grid-cols-1 gap-3 lg:grid-cols-2">
+            <div className="fade-in mt-4 grid grid-cols-1 gap-3 lg:grid-cols-2">
               {paginatedTickets.map((ticket) => (
                 <TicketCard
                   key={ticket.id}
@@ -531,11 +545,13 @@ function MainSection({
               ))}
             </div>
           )}
-          <Pagination
-            currentPage={safePage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
+          {!isLoading && (
+            <Pagination
+              currentPage={safePage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+          )}
         </div>
 
         <aside className="rounded-lg p-2 xl:pt-2">
@@ -546,19 +562,21 @@ function MainSection({
           >
             Task Status
             <span className="inline-flex items-center justify-center rounded-full bg-[#F4E18D] px-2.5 py-0.5 text-sm font-semibold text-[#9A7400] min-w-7">
-              {taskStatus.length}
+              {isLoading ? "…" : taskStatus.length}
             </span>
           </h3>
 
-          {taskStatus.length === 0 ? (
+          {isLoading ? (
+            <TaskListSkeleton rows={2} />
+          ) : taskStatus.length === 0 ? (
             <p
-              className="mt-1 text-[clamp(1rem,0.25vw+0.9rem,1.15rem)]"
+              className="fade-in mt-1 text-[clamp(1rem,0.25vw+0.9rem,1.15rem)]"
               style={{ color: "var(--text-secondary)" }}
             >
               Select a ticket to add to Task Status
             </p>
           ) : (
-            <div className="mt-4 space-y-3">
+            <div className="fade-in mt-4 space-y-3">
               {taskStatus.map((ticket) => (
                 <article
                   key={ticket.id}
@@ -591,19 +609,21 @@ function MainSection({
           >
             Resolved Task
             <span className="inline-flex items-center justify-center rounded-full bg-[#CDECF9] px-2.5 py-0.5 text-sm font-semibold text-[#0C6280] min-w-7">
-              {resolvedTasks.length}
+              {isLoading ? "…" : resolvedTasks.length}
             </span>
           </h3>
 
-          {resolvedTasks.length === 0 ? (
+          {isLoading ? (
+            <TaskListSkeleton rows={2} />
+          ) : resolvedTasks.length === 0 ? (
             <p
-              className="mt-1 text-[clamp(1rem,0.25vw+0.9rem,1.15rem)]"
+              className="fade-in mt-1 text-[clamp(1rem,0.25vw+0.9rem,1.15rem)]"
               style={{ color: "var(--text-secondary)" }}
             >
               No resolved tasks yet.
             </p>
           ) : (
-            <ul className="mt-3 space-y-2">
+            <ul className="fade-in mt-3 space-y-2">
               {resolvedTasks.map((ticket) => {
                 const isExpanded = expandedResolved === ticket.id;
                 const priorityColors = {
@@ -719,7 +739,6 @@ function MainSection({
                           className="flex items-center gap-1.5 rounded-md px-2 py-1.5"
                           style={{ backgroundColor: "#A6E9BC22" }}
                         >
-                          
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
