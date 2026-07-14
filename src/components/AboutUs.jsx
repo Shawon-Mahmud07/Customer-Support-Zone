@@ -15,6 +15,8 @@ function AboutUs({ onBack }) {
         </button>
       </div>
 
+    
+
       {/* Hero */}
       <section className="mx-auto max-w-5xl px-5 py-16 sm:px-8 text-center">
         <h1 className="text-[clamp(2.2rem,2vw+1.5rem,3.5rem)] font-bold tracking-tight">
@@ -25,6 +27,7 @@ function AboutUs({ onBack }) {
           let a ticket fall through the cracks.
         </p>
       </section>
+      
 
       {/* Mission */}
       <section
