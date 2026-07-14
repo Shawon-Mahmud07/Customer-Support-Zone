@@ -79,6 +79,7 @@ function App() {
   const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
   const [showTermsConditions, setShowTermsConditions] = useState(false);
   const [showJoinUs, setShowJoinUs] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Persist tickets, task status, resolved tasks, and ticket notes to localStorage
   useEffect(() => {
@@ -105,6 +106,11 @@ function App() {
   useEffect(() => {
     localStorage.setItem("csz_ticketNotes", JSON.stringify(ticketNotes));
   }, [ticketNotes]);
+// Simulate loading state for skeletons
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 900);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -132,6 +138,8 @@ function App() {
         setDarkMode((prev) => !prev);
       }
     }
+
+    
     // Add event listener for keydown
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
@@ -395,6 +403,7 @@ function App() {
         onDeleteNote={handleDeleteNote}
         agents={agents}
         onAssignTicket={handleAssignTicket}
+        isLoading={isLoading}
       />
       {/* Footer */}
       <Footer
