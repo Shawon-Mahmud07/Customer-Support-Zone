@@ -16,6 +16,8 @@ import DownloadApps from "./components/DownloadApps";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import TermsConditions from "./components/TermsConditions";
 import JoinUs from "./components/JoinUs";
+import FAQ from "./components/FAQ";
+import Blog from "./components/Blog";
 
 function loadState(key, fallback) {
   try {
@@ -80,6 +82,8 @@ function App() {
   const [showTermsConditions, setShowTermsConditions] = useState(false);
   const [showJoinUs, setShowJoinUs] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [showFAQ, setShowFAQ] = useState(false);
+  const [showBlog, setShowBlog] = useState(false);
 
   // Persist tickets, task status, resolved tasks, and ticket notes to localStorage
   useEffect(() => {
@@ -361,6 +365,14 @@ function App() {
   if (showJoinUs) {
     return <JoinUs onBack={() => setShowJoinUs(false)} />;
   }
+// Show FAQ page
+  if (showFAQ) {
+    return <FAQ onBack={() => setShowFAQ(false)} />;
+  }
+  // Show Blog page
+  if (showBlog) {
+    return <Blog onBack={() => setShowBlog(false)} />;
+  }
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--bg-base)" }}>
@@ -416,6 +428,8 @@ function App() {
         onPrivacyPolicy={() => setShowPrivacyPolicy(true)}
         onTermsConditions={() => setShowTermsConditions(true)}
         onJoinUs={() => setShowJoinUs(true)}
+        onFAQ={() => setShowFAQ(true)}
+        onBlog={() => setShowBlog(true)}
       />
       {/* Toast notifications */}
       <ToastContainer
