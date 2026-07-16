@@ -19,6 +19,8 @@ function Footer({
   onPrivacyPolicy,
   onTermsConditions,
   onJoinUs,
+  onFAQ,
+  onBlog,
 }) {
   return (
     <footer
@@ -96,6 +98,18 @@ function Footer({
                   }}
                 >
                   Contact Sales
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={onBlog}
+                  className="hover:opacity-80 hover:underline transition-opacity cursor-pointer bg-transparent border-none text-left p-0"
+                  style={{
+                    color: "var(--text-secondary)",
+                    fontSize: "inherit",
+                  }}
+                >
+                  Blog
                 </button>
               </li>
             </ul>
@@ -195,6 +209,18 @@ function Footer({
                   }}
                 >
                   Join Us
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={onFAQ}
+                  className="hover:opacity-80 hover:underline transition-opacity cursor-pointer bg-transparent border-none text-left p-0"
+                  style={{
+                    color: "var(--text-secondary)",
+                    fontSize: "inherit",
+                  }}
+                >
+                  FAQ
                 </button>
               </li>
             </ul>
